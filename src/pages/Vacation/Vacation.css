@@ -112,6 +112,10 @@
    font-size: 0.8rem;
 }
 
+.buy {
+   text-align: end;
+}
+
 /* responsive section */
 
 @media screen and (max-width: 450px) {

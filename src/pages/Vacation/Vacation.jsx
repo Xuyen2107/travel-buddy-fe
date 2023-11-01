@@ -1,4 +1,5 @@
 import  { useState } from "react";
+import { Link } from "react-router-dom";
 
 import "./Vacation.css";
 
@@ -88,9 +89,9 @@ function Vacation() {
       </div>
 
       <div className="recommendationBox">
-        {data.map((item) => {
-          return <>
-            <div className="box">
+        {data.map((item, index) => {
+          return(
+          <Link key={index} to={`/vacation/${item.title}`} className="box">
               <div className="image">
                 <img src={item.image} alt="image" />
               </div>
@@ -111,8 +112,8 @@ function Vacation() {
                 <p>1500 kms</p>
                 <p>{item.duration}</p>
               </div>
-            </div>
-          </>;
+            
+          </Link>);
         })}
       </div>
     </section>
