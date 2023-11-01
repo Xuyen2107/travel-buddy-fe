@@ -7,7 +7,7 @@ const Home = () => {
       <div className={style.home}>
          <h1>My home Travel Buddy</h1>
          <Vacation />
-         <Service /> 
+         <Service />
          <Testimonials />
       </div>
    );
