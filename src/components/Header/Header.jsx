@@ -17,6 +17,10 @@ const navLinks = [
       path: "/tours",
       display: "Tours",
    },
+   {
+      path: "/Ablum",
+      display: "Ablum",
+   },
 ];
 
 const Header = () => {

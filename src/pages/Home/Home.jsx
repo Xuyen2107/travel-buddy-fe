@@ -2,6 +2,8 @@ import style from "./home.module.css";
 import Service from "../Service/Service.jsx";
 import Testimonials from "../Testimonial/Testimonials.jsx";
 import Vacation from "../Vacation/Vacation.jsx";
+// import MapList from "../Map/MapList.jsx";
+
 const Home = () => {
    return (
       <div className={style.home}>
@@ -9,6 +11,7 @@ const Home = () => {
          <Vacation />
          <Service />
          <Testimonials />
+         
       </div>
    );
 };

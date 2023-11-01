@@ -1,4 +1,5 @@
-import { useState } from "react";
+import  { useState } from "react";
+import { Link } from "react-router-dom";
 
 import "./Vacation.css";
 
@@ -79,15 +80,15 @@ function Vacation() {
             </div>
          </div>
 
-         <div className="recommendationBox">
-            {data.map((item, idx) => {
-               return (
-                  <div key={idx} className="box">
-                     <div className="image">
-                        <img src={item.image} alt="image" />
-                     </div>
-                     <h3>{item.title}</h3>
-                     <p>{item.subTitle}</p>
+      <div className="recommendationBox">
+        {data.map((item, index) => {
+          return(
+          <Link key={index} to={`/vacation/${item.title}`} className="box">
+              <div className="image">
+                <img src={item.image} alt="image" />
+              </div>
+              <h3>{item.title}</h3>
+              <p>{item.subTitle}</p>
 
                      <div className="price">
                         <div className="icon-img">
@@ -99,16 +100,16 @@ function Vacation() {
                         <p>${item.cost}</p>
                      </div>
 
-                     <div className="details">
-                        <p>1500 kms</p>
-                        <p>{item.duration}</p>
-                     </div>
-                  </div>
-               );
-            })}
-         </div>
-      </section>
-   );
+              <div className="details">
+                <p>1500 kms</p>
+                <p>{item.duration}</p>
+              </div>
+            
+          </Link>);
+        })}
+      </div>
+    </section>
+  );
 }
 
 export default Vacation;
