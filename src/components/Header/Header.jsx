@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { NavLink } from "react-router-dom";
-// import Button from "@mui/material/Button";
 import style from "./header.module.css";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../redux/authSlice";
 
 const navLinks = [
    {
@@ -22,51 +23,12 @@ const navLinks = [
    },
 ];
 
-const user = {
-   _id: "653798aa1fbb8cb9e92d5ae6",
-   fullName: "Phạm Hoàng Xuyên",
-   userName: "xuyen123",
-   email: "hoangxuyenpham30@gmail.com",
-   phoneNumber: "0843461739",
-   password: "$2b$10$Q3/MZEyhh/t.7CNsHSNfqun2/oWaNL50lFPGoD/j6w0zT9.wcfnny",
-   createAt: {
-      $date: "2023-10-24T10:10:07.459Z",
-   },
-   avatar: "https://res.cloudinary.com/dcgytjpvn/image/upload/v1698142500/Travel_Buddy/ilerymwkxnu3jd52s9ff.jpg",
-   age: 24,
-   dateOfBirth: "21/7/1999",
-   describe: "I love you",
-   gender: "Nam",
-   updateAt: {
-      $date: "2023-10-24T10:16:28.653Z",
-   },
-};
-
 const Header = () => {
+   const auth = useSelector((state) => state.auth);
+   console.log(123, auth);
+   const dispatch = useDispatch();
    const headerRef = useRef(null);
    const menuRef = useRef(null);
-   const blockRef = useRef(null);
-   const [isHidden, setIsHidden] = useState(false);
-
-   const toggle = () => {
-      setIsHidden(!isHidden);
-   };
-
-   const handleClickOutside = () => {
-      setIsHidden(false);
-   };
-
-   useEffect(() => {
-      if (!isHidden) {
-         document.addEventListener("click", handleClickOutside);
-      } else {
-         document.removeEventListener("click", handleClickOutside);
-      }
-
-      return () => {
-         document.removeEventListener("click", handleClickOutside);
-      };
-   }, [isHidden]);
 
    const stickyHeaderFunc = () => {
       window.addEventListener("scroll", () => {
@@ -96,7 +58,7 @@ const Header = () => {
             {/* ========================== */}
 
             {/* ========== MENU START ========== */}
-            {user && (
+            {auth.isLogin && (
                <div className={style.navigation} ref={menuRef} onClick={toggleMenu}>
                   <ul className={style.menu}>
                      {navLinks.map((item, idx) => (
@@ -113,12 +75,20 @@ const Header = () => {
 
             <div className={style.navRight}>
                <div className="nav_btns">
-                  {user ? (
+                  {auth.isLogin ? (
                      <div className={style.user}>
-                        <button onClick={toggle}>
-                           <img className={style.img} src={user.avatar} alt="Avatar" />
+                        <button>
+                           <img className={style.img} src={auth?.user?.avatar} alt="Avatar" />
                         </button>
-                        {isHidden && <div ref={blockRef} className={style.block}></div>}
+                        <button
+                           onClick={() => {
+                              dispatch(logout());
+                              localStorage.removeItem("user");
+                              localStorage.removeItem("accessToken");
+                           }}
+                        >
+                           Log out
+                        </button>
                      </div>
                   ) : (
                      <NavLink to="/login" className={style.login}>
