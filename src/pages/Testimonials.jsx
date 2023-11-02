@@ -1,10 +1,10 @@
 // import React from "react";
 
-import Classes from "./Testimonials.module.css";
+import Classes from "../styles/Testimonials.module.css";
 
-import avatar from "../../assets/images/assets/avatar.jpg";
-import avatar2 from "../../assets/images/assets/avatar2.jpg";
-import avatar3 from "../../assets/images/assets/avatar3.jpg";
+import avatar from "../assets/images/assets/avatar.jpg";
+import avatar2 from "../assets/images/assets/avatar2.jpg";
+import avatar3 from "../assets/images/assets/avatar3.jpg";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faQuoteLeft } from "@fortawesome/free-solid-svg-icons";

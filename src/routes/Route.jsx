@@ -1,11 +1,11 @@
 import { Route, Routes } from "react-router-dom";
-import Ablum from "../pages/Ablum/Ablum.jsx";
-import Home from "../pages/Home/Home";
+import Ablum from "../pages/Ablum.jsx";
+import Home from "../pages/Home";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
-import MapList from "../pages/Map/MapList.jsx"
-import Service from "../pages/Service/Service";
-import VacationDetail from "../pages/Vacation/VacationDetail.jsx";
+import MapList from "../pages/MapList.jsx"
+import Service from "../pages/Service";
+import VacationDetail from "../pages/VacationDetail.jsx";
 
 const Navigate = () => {
    return (

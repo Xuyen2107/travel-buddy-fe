@@ -9,16 +9,16 @@ import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 
 
-import "./VacationDetail.css";
-import Destination1 from "../../assets/images/assets/Destination1.png";
-import Destination2 from "../../assets/images/assets/Destination2.png";
-import Destination3 from "../../assets/images/assets/Destination3.png";
-import Destination4 from "../../assets/images/assets/Destination4.png";
-import Destination5 from "../../assets/images/assets/Destination5.png";
-import Destination6 from "../../assets/images/assets/Destination6.png";
-import info1 from "../../assets/images/assets/info1.png";
-import info2 from "../../assets/images/assets/info2.png";
-import info3 from "../../assets/images/assets/info3.png";
+import "../styles/VacationDetail.css";
+import Destination1 from "../assets/images/assets/Destination1.png";
+import Destination2 from "../assets/images/assets/Destination2.png";
+import Destination3 from "../assets/images/assets/Destination3.png";
+import Destination4 from "../assets/images/assets/Destination4.png";
+import Destination5 from "../assets/images/assets/Destination5.png";
+import Destination6 from "../assets/images/assets/Destination6.png";
+import info1 from "../assets/images/assets/info1.png";
+import info2 from "../assets/images/assets/info2.png";
+import info3 from "../assets/images/assets/info3.png";
 
 const VacationDetail = () => {
     const { title } = useParams();
