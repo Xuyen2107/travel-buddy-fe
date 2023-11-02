@@ -1,7 +1,7 @@
-import style from "./home.module.css";
-import Service from "../Service/Service.jsx";
-import Testimonials from "../Testimonial/Testimonials.jsx";
-import Vacation from "../Vacation/Vacation.jsx";
+import style from "../styles/home.module.css";
+import Service from "./Service.jsx";
+import Testimonials from "./Testimonials.jsx";
+import Vacation from "./Vacation.jsx";
 // import MapList from "../Map/MapList.jsx";
 
 const Home = () => {

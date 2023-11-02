@@ -4,7 +4,7 @@ import {
     Select,
   } from "@mui/material";
   
-  import { ListContainer, ListTitle } from "./styles";
+  import { ListContainer, ListTitle } from "../styles/Liststyles.js";
   import { useState } from "react";
   
   const List = () => {

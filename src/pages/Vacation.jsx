@@ -1,17 +1,17 @@
 import  { useState } from "react";
 import { Link } from "react-router-dom";
 
-import "./Vacation.css";
+import "../styles/Vacation.css";
 
-import Destination1 from "../../assets/images/assets/Destination1.png";
-import Destination2 from "../../assets/images/assets/Destination2.png";
-import Destination3 from "../../assets/images/assets/Destination3.png";
-import Destination4 from "../../assets/images/assets/Destination4.png";
-import Destination5 from "../../assets/images/assets/Destination5.png";
-import Destination6 from "../../assets/images/assets/Destination6.png";
-import info1 from "../../assets/images/assets/info1.png";
-import info2 from "../../assets/images/assets/info2.png";
-import info3 from "../../assets/images/assets/info3.png";
+import Destination1 from "../assets/images/assets/Destination1.png";
+import Destination2 from "../assets/images/assets/Destination2.png";
+import Destination3 from "../assets/images/assets/Destination3.png";
+import Destination4 from "../assets/images/assets/Destination4.png";
+import Destination5 from "../assets/images/assets/Destination5.png";
+import Destination6 from "../assets/images/assets/Destination6.png";
+import info1 from "../assets/images/assets/info1.png";
+import info2 from "../assets/images/assets/info2.png";
+import info3 from "../assets/images/assets/info3.png";
 
 function Vacation() {
    const [active, setActive] = useState();

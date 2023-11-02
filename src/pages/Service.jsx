@@ -1,11 +1,11 @@
 // import React from "react";
 
-import Classes from "./Service.module.css";
+import Classes from "../styles/Service.module.css";
 
-import service1 from "../../assets/images/assets/service1.png";
-import service2 from "../../assets/images/assets/service2.png";
-import service3 from "../../assets/images/assets/service3.png";
-import service4 from "../../assets/images/assets/service4.png";
+import service1 from "../assets/images/assets/service1.png";
+import service2 from "../assets/images/assets/service2.png";
+import service3 from "../assets/images/assets/service3.png";
+import service4 from "../assets/images/assets/service4.png";
 
 function Service() {
    const data = [

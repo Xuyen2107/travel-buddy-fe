@@ -85,13 +85,6 @@ const Login = () => {
 
             {error && <p>{error}</p>}
          </form>
-         <button
-            onClick={() => {
-               navigate(-1);
-            }}
-         >
-            back
-         </button>
       </div>
    );
 };
