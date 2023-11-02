@@ -4,17 +4,17 @@ const axiosInstance = axios.create({
    baseURL: import.meta.env.REACT_APP_BASE_API || "https://travel-buddy-be.onrender.com/api/v1",
    timeout: 30000,
    headers: {
-      "x-access-token": localStorage.getItem("accessToken") ? JSON.parse(localStorage.getItem("accessToken")) : undefined,
+      "x-access-token": localStorage.getItem("accessToken") !== null ? JSON.parse(localStorage.getItem("accessToken")) : null,
    },
 });
 
 export const authAPI = {
    login: (values) => axiosInstance.post("/auth/login", values),
    register: (values) => axiosInstance.post("/auth/register", values),
-   authInfo: (values) =>
+   authInfo: (accessToken) =>
       axiosInstance.get("/auth/profile", {
          headers: {
-            "x-access-token": values,
+            "x-access-token": accessToken,
          },
       }),
 };

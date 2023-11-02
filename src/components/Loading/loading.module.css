@@ -1,0 +1,33 @@
+.wrapper {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   height: 100vh;
+}
+
+.loading {
+   position: relative;
+   -webkit-box-reflect: below -20px linear-gradient(transparent, rgba(0, 0, 0, 0.2));
+}
+
+.span {
+   color: blue;
+   position: relative;
+   display: inline-block;
+   font-size: 4rem;
+   text-transform: uppercase;
+   animation: loading 1s infinite;
+   animation-delay: calc(0.1s * var(--i));
+}
+
+@keyframes loading {
+   0%,
+   40%,
+   100% {
+      transform: translateY(0);
+   }
+
+   20% {
+      transform: translateY(-20px);
+   }
+}

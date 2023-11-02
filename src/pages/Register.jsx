@@ -26,13 +26,13 @@ const Register = () => {
          try {
             setLoading(true);
             await authAPI.register(values);
+            navigate("/login");
+            setLoading(false);
          } catch (error) {
             setError(error.response.data.message);
-         } finally {
-            setLoading(false);
-            navigate("/login");
          }
       },
+
       validationSchema: userValidation("register"),
    });
 
@@ -43,11 +43,11 @@ const Register = () => {
          <form className={style.formRegister} onSubmit={handleSubmit}>
             <h2>Đăng kí</h2>
             <TextField
-               id="standard-basic"
                type="text"
                name="fullName"
                value={values.fullName}
                onChange={handleChange}
+               error={errors.fullName}
                helperText={errors.fullName}
                fullWidth
                margin="dense"
@@ -55,11 +55,11 @@ const Register = () => {
                variant="standard"
             />
             <TextField
-               id="standard-basic"
                type="text"
                name="userName"
                value={values.userName}
                onChange={handleChange}
+               error={errors.userName}
                helperText={errors.userName}
                fullWidth
                margin="dense"
@@ -67,11 +67,11 @@ const Register = () => {
                variant="standard"
             />
             <TextField
-               id="standard-basic"
                name="email"
                type="email"
                value={values.email}
                onChange={handleChange}
+               error={errors.email}
                helperText={errors.email}
                fullWidth
                margin="dense"
@@ -79,11 +79,11 @@ const Register = () => {
                variant="standard"
             />
             <TextField
-               id="standard-basic"
                name="phoneNumber"
                type="tel"
                value={values.phoneNumber}
                onChange={handleChange}
+               error={errors.phoneNumber}
                helperText={errors.phoneNumber}
                fullWidth
                margin="dense"
@@ -91,11 +91,11 @@ const Register = () => {
                variant="standard"
             />
             <TextField
-               id="standard-basic"
                name="password"
                type="password"
                value={values.password}
                onChange={handleChange}
+               error={errors.password}
                helperText={errors.password}
                fullWidth
                margin="dense"
@@ -103,11 +103,11 @@ const Register = () => {
                variant="standard"
             />
             <TextField
-               id="standard-basic"
                name="rePassword"
                type="password"
                value={values.rePassword}
                onChange={handleChange}
+               error={errors.rePassword}
                helperText={errors.rePassword}
                fullWidth
                margin="dense"
