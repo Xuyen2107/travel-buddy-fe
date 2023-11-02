@@ -24,8 +24,8 @@ const navLinks = [
 ];
 
 const Header = () => {
-   const auth = useSelector((state) => state.auth);
-   console.log(123, auth);
+   const user = useSelector((state) => state.auth.user);
+   // console.log(123, user);
    const dispatch = useDispatch();
    const headerRef = useRef(null);
    const menuRef = useRef(null);
@@ -58,7 +58,7 @@ const Header = () => {
             {/* ========================== */}
 
             {/* ========== MENU START ========== */}
-            {auth.isLogin && (
+            {user && (
                <div className={style.navigation} ref={menuRef} onClick={toggleMenu}>
                   <ul className={style.menu}>
                      {navLinks.map((item, idx) => (
@@ -75,25 +75,24 @@ const Header = () => {
 
             <div className={style.navRight}>
                <div className="nav_btns">
-                  {auth.isLogin ? (
+                  {user === null ? (
+                     <NavLink to="/login" className={style.login}>
+                        <i className="fa-solid fa-right-to-bracket"></i> Đăng nhập
+                     </NavLink>
+                  ) : (
                      <div className={style.user}>
                         <button>
-                           <img className={style.img} src={auth?.user?.avatar} alt="Avatar" />
+                           <img className={style.img} src={user?.avatar} alt="Avatar" />
                         </button>
                         <button
                            onClick={() => {
                               dispatch(logout());
-                              localStorage.removeItem("user");
                               localStorage.removeItem("accessToken");
                            }}
                         >
                            Log out
                         </button>
                      </div>
-                  ) : (
-                     <NavLink to="/login" className={style.login}>
-                        <i className="fa-solid fa-right-to-bracket"></i> Đăng nhập
-                     </NavLink>
                   )}
                </div>
 
