@@ -2,29 +2,33 @@ import { useDispatch, useSelector } from "react-redux";
 import Layout from "./components/Layout/Layout";
 import { authAPI } from "./services/api";
 import { useEffect } from "react";
-import { loginStart, loginSuccess, logout } from "./redux/authSlice";
+import { loginSuccess, logout } from "./redux/authSlice";
+import Loading from "./components/Loading/Loading";
 
 const App = () => {
    const dispatch = useDispatch();
-   const loading = useSelector((state) => {
-      return state.auth.loading
-   })
+   const loading = useSelector((state) => state.auth.loading);
+
+   const handleLogout = () => {
+      dispatch(logout());
+      localStorage.removeItem("accessToken");
+   };
+
    useEffect(() => {
       const fetchData = async () => {
-         const accessToken = localStorage.getItem("accessToken") ? JSON.parse(localStorage.getItem("accessToken")) : null;
+         const accessToken = localStorage.getItem("accessToken") !== null ? JSON.parse(localStorage.getItem("accessToken")) : null;
          if (accessToken) {
             try {
-               dispatch(loginStart());
                const response = await authAPI.authInfo(accessToken);
                const userInfo = response.data.userInfo;
-               dispatch(loginSuccess(userInfo));
+               setTimeout(() => {
+                  dispatch(loginSuccess(userInfo));
+               }, 1000);
             } catch (error) {
-               dispatch(logout());
-               localStorage.removeItem("accessToken");
+               handleLogout();
             }
          } else {
-            dispatch(logout());
-            localStorage.removeItem("accessToken");
+            handleLogout();
          }
       };
 
@@ -32,15 +36,15 @@ const App = () => {
    }, []);
 
    return (
-      <div>
+      <>
          {loading ? (
-            <div>Loading...</div>
+            <Loading />
          ) : (
             <div>
                <Layout />
             </div>
          )}
-      </div>
+      </>
    );
 };
 

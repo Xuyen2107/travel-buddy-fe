@@ -4,40 +4,36 @@ const authSlice = createSlice({
    name: "auth",
 
    initialState: {
-      user: null,
-      isLogin: localStorage.getItem("accessToken") === null ? false : true,
-      loading: false,
+      loading: true,
       error: null,
+      user: null,
    },
 
    reducers: {
       loginStart: (state) => {
          return {
             ...state,
-            user: null,
-            isLogin: false,
             loading: true,
             error: null,
+            user: null,
          };
       },
 
       loginSuccess: (state, action) => {
          return {
             ...state,
-            user: action.payload,
-            isLogin: true,
             loading: false,
             error: null,
+            user: action.payload,
          };
       },
 
       loginFailure: (state, action) => {
          return {
             ...state,
-            user: null,
-            isLogin: false,
             loading: false,
             error: action.payload,
+            user: null,
          };
       },
 
@@ -45,7 +41,6 @@ const authSlice = createSlice({
          return {
             ...state,
             user: null,
-            isLogin: false,
             loading: false,
             error: null,
          };
