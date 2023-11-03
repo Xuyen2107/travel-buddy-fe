@@ -20,7 +20,7 @@ import info1 from "../assets/images/assets/info1.png";
 import info2 from "../assets/images/assets/info2.png";
 import info3 from "../assets/images/assets/info3.png";
 
-const VacationDetail = () => {
+const AlbumDetail = () => {
     const { title } = useParams();
 
     const data = [
@@ -138,4 +138,4 @@ const VacationDetail = () => {
         
 };
 
-export default VacationDetail;
+export default AlbumDetail;

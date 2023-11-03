@@ -1,7 +1,7 @@
 import  { useState, useEffect } from "react";
 import  { useSelector, useDispatch } from "react-redux";
-import { addAlbum , removeAlbum } from "../redux/albumSlice.js";
-import { albumAPI, authAPI } from "../services/api";
+// import { addAlbum , removeAlbum } from "../redux/albumSlice.js";
+// import { albumAPI, authAPI } from "../services/api";
 import { Link } from "react-router-dom";
 
 
@@ -20,9 +20,11 @@ import info3 from "../assets/images/assets/info3.png";
 function Vacation() {
    const [active, setActive] = useState();
    const [albumData, setAlbumData] = useState(null);
-   const dispatch = useDispatch();
+   // const dispatch = useDispatch();
    const albums = useSelector((state) =>  state.album);
+   console.log("🚀 ~ file: Vacation.jsx:25 ~ Vacation ~ albums:", albums)
    const auth = useSelector((state) => state.auth);
+   console.log("🚀 ~ file: Vacation.jsx:27 ~ Vacation ~ auth:", auth)
    
    // const handleRemoveAlbum = (albumId) => {
    //    dispatch(removeAlbum(albumId));
@@ -39,21 +41,21 @@ function Vacation() {
    //    }
    //  };
 
-   useEffect(() => {
-      const fetchAlbumData = async () => {
-        try {
-          const response = await albumAPI.getAll();
+   // useEffect(() => {
+   //    const fetchAlbumData = async () => {
+   //      try {
+   //        const response = await albumAPI.getAll();
           
          
-          // Cập nhật state albumData với dữ liệu từ API
-          setAlbumData(response.data);
-        } catch (error) {
-          // Xử lý lỗi
-        }
-      };
+   //        // Cập nhật state albumData với dữ liệu từ API
+   //        setAlbumData(response.data);
+   //      } catch (error) {
+   //        // Xử lý lỗi
+   //      }
+   //    };
   
-      fetchAlbumData();
-    }, []);
+   //    fetchAlbumData();
+   //  }, []);
    const data = [
       {
          image: Destination1,
