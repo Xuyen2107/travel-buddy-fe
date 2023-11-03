@@ -11,20 +11,23 @@ import { useSelector } from "react-redux";
 const Navigate = () => {
    const user = useSelector((state) => state.auth.user);
    return (
-      <Routes>
-         <Route path="/" element={<Home />} />
-         <Route path="/login" element={<Login />} />
-         <Route path="/register" element={<Register />} />
-         <Route path="/album" element={<Album />} />
-
-         
-      
-         <Route path="/album/:title" element={<AlbumDetail />} /> 
-      
-         
-         <Route path="/Service" element={<Service />} />
-         <Route path="/Map" element={<MapList />} />
-      </Routes>
+      <>
+      {user === null ? (
+         <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+         </Routes>
+      ) : (
+         <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/Album" element={<Album />} />
+            <Route path="/Album/:title" element={<AlbumDetail />} />
+            <Route path="/Service" element={<Service />} />
+            <Route path="/Map" element={<MapList />} />
+         </Routes>
+      )}
+   </>
    );
 };
 
