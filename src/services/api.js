@@ -65,7 +65,7 @@ export const albumAPI = {
          },
       }),
    getSingle: (albumId) => axiosInstance.get(`/album/${albumId}`),
-   getAll: () => axiosInstance.get("album/all"),
+   getAll: () => axiosInstance.get("/album/all"),
    getAllByUser: () => axiosInstance.get("/album/all-by-user"),
    update: (albumId, values) =>
       axiosInstance.put(`/album/${albumId}/update`, values, {

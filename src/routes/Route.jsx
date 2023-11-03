@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import Ablum from "../pages/Ablum.jsx";
+import Album from "../pages/Album.jsx";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
 import Register from "../pages/Register";

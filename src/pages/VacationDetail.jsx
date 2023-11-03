@@ -80,10 +80,6 @@ const VacationDetail = () => {
 
       const vacation = data.find((item) => item.title === title);
 
-      if (!vacation) {
-        return <div>Không tìm thấy thông tin về kỳ nghỉ.</div>;
-      }
-
       return (
         <Container maxWidth="sm">
           <section id="recommendation" className="recommendation">
