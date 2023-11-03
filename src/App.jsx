@@ -6,7 +6,9 @@ import { loginStart, loginSuccess, logout } from "./redux/authSlice";
 
 const App = () => {
    const dispatch = useDispatch();
-   const loading = useSelector((state) => state.auth.loading);
+   const loading = useSelector((state) => {
+      return state.auth.loading
+   })
    useEffect(() => {
       const fetchData = async () => {
          const accessToken = localStorage.getItem("accessToken") ? JSON.parse(localStorage.getItem("accessToken")) : null;

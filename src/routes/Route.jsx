@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import Ablum from "../pages/Ablum.jsx";
+import Album from "../pages/Album.jsx";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
@@ -13,11 +13,11 @@ const Navigate = () => {
          <Route path="/" element={<Home />} />
          <Route path="/login" element={<Login />} />
          <Route path="/register" element={<Register />} />
-         <Route path="/Ablum" element={<Ablum />} />
 
+         <Route path="/album" element={<Album />} />
+         <Route path="/album/:title" element={<VacationDetail />} /> 
          
       
-         <Route path="/vacation/:title" element={<VacationDetail />} /> 
       
          
          <Route path="/Service" element={<Service />} />
