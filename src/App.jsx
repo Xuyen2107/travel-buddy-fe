@@ -4,7 +4,6 @@ import { authAPI } from "./services/api";
 import { useEffect } from "react";
 import { loginSuccess, logout } from "./redux/authSlice";
 import Loading from "./components/Loading/Loading";
-import Profile from "./pages/Profile";
 
 const App = () => {
    const dispatch = useDispatch();
@@ -42,8 +41,7 @@ const App = () => {
             <Loading />
          ) : (
             <div>
-               {/* <Layout /> */}
-               <Profile />
+               <Layout />
             </div>
          )}
       </>
