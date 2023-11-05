@@ -18,8 +18,8 @@ const navLinks = [
       display: "Tours",
    },
    {
-      path: "/Ablum",
-      display: "Ablum",
+      path: "/album",
+      display: "Albums",
    },
 ];
 

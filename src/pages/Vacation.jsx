@@ -1,5 +1,9 @@
-import  { useState } from "react";
+import  { useState, useEffect } from "react";
+import  { useSelector, useDispatch } from "react-redux";
+import { addAlbum , removeAlbum } from "../redux/albumSlice.js";
+import { albumAPI, authAPI } from "../services/api";
 import { Link } from "react-router-dom";
+
 
 import "../styles/Vacation.css";
 
@@ -15,7 +19,41 @@ import info3 from "../assets/images/assets/info3.png";
 
 function Vacation() {
    const [active, setActive] = useState();
+   const [albumData, setAlbumData] = useState(null);
+   const dispatch = useDispatch();
+   const albums = useSelector((state) =>  state.album);
+   const auth = useSelector((state) => state.auth);
+   
+   // const handleRemoveAlbum = (albumId) => {
+   //    dispatch(removeAlbum(albumId));
+   //  };
+  
+   //  const handleSubmit = async (values) => {
+   //    try {
+   //      dispatch(addAlbum(values));
+   //      const response = await albumAPI.create(values);
+  
+   //      // Add any further logic here
+   //    } catch (error) {
+   //      // Handle error here
+   //    }
+   //  };
 
+   useEffect(() => {
+      const fetchAlbumData = async () => {
+        try {
+          const response = await albumAPI.getAll(); // Thay thế "getAlbumData" bằng API endpoint tương ứng để lấy thông tin bài viết
+          
+         
+          // Cập nhật state albumData với dữ liệu từ API
+          setAlbumData(response.data);
+        } catch (error) {
+          // Xử lý lỗi
+        }
+      };
+  
+      fetchAlbumData();
+    }, []);
    const data = [
       {
          image: Destination1,
@@ -64,6 +102,7 @@ function Vacation() {
    const packages = ["The Weekend Break", "The Package Holiday", "The Group Tour", "Long Term Slow Travel"];
 
    return (
+      <>
       <section id="recommendation" className="recommendation">
          <div className="title">
             <h1>Recommend</h1>
@@ -83,7 +122,7 @@ function Vacation() {
       <div className="recommendationBox">
         {data.map((item, index) => {
           return(
-          <Link key={index} to={`/vacation/${item.title}`} className="box">
+          <Link key={index} to={`/album/${item.title}`} className="box">
               <div className="image">
                 <img src={item.image} alt="image" />
               </div>
@@ -108,7 +147,23 @@ function Vacation() {
           </Link>);
         })}
       </div>
+
+      {albumData && (
+        <div>
+          <h1>Album</h1>
+          <div key={albumData._id}>
+            {/* Hiển thị thông tin album */}
+            <h2>{albumData.nameAlbum}</h2>
+            <p>{albumData.vacation}</p>
+            {/* Hiển thị các hình ảnh từ album */}
+            {albumData.images.map((image, index) => (
+              <img key={index} src={image} alt="image" />
+            ))}
+          </div>
+        </div>
+      )}
     </section>
+    </>
   );
 }
 
