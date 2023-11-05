@@ -4,6 +4,7 @@ import { authAPI } from "./services/api";
 import { useEffect } from "react";
 import { loginSuccess, logout } from "./redux/authSlice";
 import Loading from "./components/Loading/Loading";
+import Profile from "./pages/Profile";
 
 const App = () => {
    const dispatch = useDispatch();
@@ -16,7 +17,7 @@ const App = () => {
 
    useEffect(() => {
       const fetchData = async () => {
-         const accessToken = localStorage.getItem("accessToken") !== null ? JSON.parse(localStorage.getItem("accessToken")) : null;
+         const accessToken = localStorage.getItem("accessToken") === null ? null : JSON.parse(localStorage.getItem("accessToken"));
          if (accessToken) {
             try {
                const response = await authAPI.authInfo(accessToken);
@@ -41,7 +42,8 @@ const App = () => {
             <Loading />
          ) : (
             <div>
-               <Layout />
+               {/* <Layout /> */}
+               <Profile />
             </div>
          )}
       </>
