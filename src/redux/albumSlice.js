@@ -11,15 +11,12 @@ const albumSlice = createSlice({
 
    reducers: {
       addAlbum: (state, action) => {
-         
          state.albums.push(action.payload);
-         
       },
-      
+
       removeAlbum: (state, action) => {
          state.albums = state.albums.filter((album) => album.id !== action.payload);
       },
-
    },
 });
 export const { addAlbum, removeAlbum } = albumSlice.actions;

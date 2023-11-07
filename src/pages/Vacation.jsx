@@ -1,9 +1,8 @@
-import  { useState, useEffect } from "react";
-import  { useSelector, useDispatch } from "react-redux";
-import { addAlbum , removeAlbum } from "../redux/albumSlice.js";
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { addAlbum, removeAlbum } from "../redux/albumSlice.js";
 import { albumAPI, authAPI } from "../services/api";
 import { Link } from "react-router-dom";
-
 
 import "../styles/Vacation.css";
 
@@ -21,18 +20,18 @@ function Vacation() {
    const [active, setActive] = useState();
    const [albumData, setAlbumData] = useState(null);
    const dispatch = useDispatch();
-   const albums = useSelector((state) =>  state.album);
+   const albums = useSelector((state) => state.album);
    const auth = useSelector((state) => state.auth);
-   
+
    // const handleRemoveAlbum = (albumId) => {
    //    dispatch(removeAlbum(albumId));
    //  };
-  
+
    //  const handleSubmit = async (values) => {
    //    try {
    //      dispatch(addAlbum(values));
    //      const response = await albumAPI.create(values);
-  
+
    //      // Add any further logic here
    //    } catch (error) {
    //      // Handle error here
@@ -41,19 +40,18 @@ function Vacation() {
 
    useEffect(() => {
       const fetchAlbumData = async () => {
-        try {
-          const response = await albumAPI.getAll(); // Thay thế "getAlbumData" bằng API endpoint tương ứng để lấy thông tin bài viết
-          
-         
-          // Cập nhật state albumData với dữ liệu từ API
-          setAlbumData(response.data);
-        } catch (error) {
-          // Xử lý lỗi
-        }
+         try {
+            const response = await albumAPI.getAll(); // Thay thế "getAlbumData" bằng API endpoint tương ứng để lấy thông tin bài viết
+
+            // Cập nhật state albumData với dữ liệu từ API
+            setAlbumData(response.data);
+         } catch (error) {
+            // Xử lý lỗi
+         }
       };
-  
+
       fetchAlbumData();
-    }, []);
+   }, []);
    const data = [
       {
          image: Destination1,
@@ -103,68 +101,68 @@ function Vacation() {
 
    return (
       <>
-      <section id="recommendation" className="recommendation">
-         <div className="title">
-            <h1>Recommend</h1>
-            <div className="CategoryBar">
-               <ul>
-                  {packages.map((pkg, index) => {
-                     return (
-                        <li key={index} className={active === index + 1 ? "Active" : ""} onClick={() => setActive(index + 1)}>
-                           {pkg}
-                        </li>
-                     );
-                  })}
-               </ul>
+         <section id="recommendation" className="recommendation">
+            <div className="title">
+               <h1>Recommend</h1>
+               <div className="CategoryBar">
+                  <ul>
+                     {packages.map((pkg, index) => {
+                        return (
+                           <li key={index} className={active === index + 1 ? "Active" : ""} onClick={() => setActive(index + 1)}>
+                              {pkg}
+                           </li>
+                        );
+                     })}
+                  </ul>
+               </div>
             </div>
-         </div>
 
-      <div className="recommendationBox">
-        {data.map((item, index) => {
-          return(
-          <Link key={index} to={`/album/${item.title}`} className="box">
-              <div className="image">
-                <img src={item.image} alt="image" />
-              </div>
-              <h3>{item.title}</h3>
-              <p>{item.subTitle}</p>
+            <div className="recommendationBox">
+               {data.map((item, index) => {
+                  return (
+                     <Link key={index} to={`/album/${item.title}`} className="box">
+                        <div className="image">
+                           <img src={item.image} alt="image" />
+                        </div>
+                        <h3>{item.title}</h3>
+                        <p>{item.subTitle}</p>
 
-                     <div className="price">
-                        <div className="icon-img">
-                           <img src={info1} alt="image" />
-                           <img src={info2} alt="image" />
-                           <img src={info3} alt="image" />
+                        <div className="price">
+                           <div className="icon-img">
+                              <img src={info1} alt="image" />
+                              <img src={info2} alt="image" />
+                              <img src={info3} alt="image" />
+                           </div>
+
+                           <p>${item.cost}</p>
                         </div>
 
-                        <p>${item.cost}</p>
-                     </div>
+                        <div className="details">
+                           <p>1500 kms</p>
+                           <p>{item.duration}</p>
+                        </div>
+                     </Link>
+                  );
+               })}
+            </div>
 
-              <div className="details">
-                <p>1500 kms</p>
-                <p>{item.duration}</p>
-              </div>
-            
-          </Link>);
-        })}
-      </div>
-
-      {albumData && (
-        <div>
-          <h1>Album</h1>
-          <div key={albumData._id}>
-            {/* Hiển thị thông tin album */}
-            <h2>{albumData.nameAlbum}</h2>
-            <p>{albumData.vacation}</p>
-            {/* Hiển thị các hình ảnh từ album */}
-            {albumData.images.map((image, index) => (
-              <img key={index} src={image} alt="image" />
-            ))}
-          </div>
-        </div>
-      )}
-    </section>
-    </>
-  );
+            {albumData && (
+               <div>
+                  <h1>Album</h1>
+                  <div key={albumData._id}>
+                     {/* Hiển thị thông tin album */}
+                     <h2>{albumData.nameAlbum}</h2>
+                     <p>{albumData.vacation}</p>
+                     {/* Hiển thị các hình ảnh từ album */}
+                     {albumData.images.map((image, index) => (
+                        <img key={index} src={image} alt="image" />
+                     ))}
+                  </div>
+               </div>
+            )}
+         </section>
+      </>
+   );
 }
 
 export default Vacation;

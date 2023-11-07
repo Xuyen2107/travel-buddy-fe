@@ -29,7 +29,7 @@ export default function App() {
          mode,
          primary: {
             main: "#1976D2",
-            contrastText: "f0f2f5",
+            contrastText: "#f0f2f5",
          },
          secondary: {
             main: "#000000",
@@ -42,7 +42,6 @@ export default function App() {
          <Box>
             <CssBaseline />
             <Navbar />
-
             <Container maxWidth="xl">
                <Stack direction={"row"} spacing={2} justifyContent={"space-between"}>
                   <Sidebar mode={mode} setMode={setMode} />
