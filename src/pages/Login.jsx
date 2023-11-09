@@ -1,15 +1,16 @@
 import { LoadingButton } from "@mui/lab";
-import { Button, TextField } from "@mui/material";
+import { Box, Button, TextField, Typography, useMediaQuery } from "@mui/material";
 import { useFormik } from "formik";
-import style from "../styles/login.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { loginFailure, loginSuccess } from "../redux/authSlice";
 import userValidation from "../validations/userValidation";
 import { authAPI } from "../services/api";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 const Login = () => {
+   const isNonMobileScreens = useMediaQuery("(min-width: 767px)");
+
    const [loading, setLoading] = useState(false);
    const navigate = useNavigate();
    const dispatch = useDispatch();
@@ -27,7 +28,7 @@ const Login = () => {
             const response = await authAPI.login(values);
             const accessToken = response.data.accessToken;
             localStorage.setItem("accessToken", JSON.stringify(accessToken));
-            const profileResponse = await authAPI.authInfo(accessToken);
+            const profileResponse = await authAPI.authInfo();
             const userInfo = profileResponse.data.userInfo;
             dispatch(loginSuccess(userInfo));
             setLoading(false);
@@ -35,6 +36,7 @@ const Login = () => {
          } catch (error) {
             dispatch(loginFailure(error.response.data.message || "Có lỗi xảy ra khi đăng nhập"));
             setLoading(false);
+            console.log(error);
          }
       },
 
@@ -44,9 +46,32 @@ const Login = () => {
    const { handleSubmit, handleChange, errors, values } = formik;
 
    return (
-      <div className={style.register}>
-         <form className={style.formRegister} onSubmit={handleSubmit}>
-            <h2>Đăng nhập</h2>
+      <Box
+         sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "100%",
+            height: "100vh",
+         }}
+      >
+         <Box
+            component="form"
+            onSubmit={handleSubmit}
+            sx={{
+               display: "flex",
+               flexDirection: "column",
+               alignItems: "center",
+               gap: "20px",
+               width: isNonMobileScreens ? "600px" : "90%",
+               padding: "20px",
+               borderLeft: "1px solid",
+               borderTop: "1px solid",
+               boxShadow: "2px 2px 2px",
+               bgcolor: "#fff",
+            }}
+         >
+            <Typography variant="h4">Đăng nhập</Typography>
             <TextField
                type="text"
                name="loginInfo"
@@ -84,8 +109,25 @@ const Login = () => {
             )}
 
             {error && <p>{error}</p>}
-         </form>
-      </div>
+
+            <Box
+               sx={{
+                  width: "100%",
+                  display: "flex",
+                  flexDirection: isNonMobileScreens ? "" : "column",
+                  justifyContent: isNonMobileScreens ? "space-between" : "",
+                  alignItems: "center",
+               }}
+            >
+               <Typography sx={{ color: "blue" }} component={Link} to="/forgot-password">
+                  Quên mật khẩu?
+               </Typography>
+               <Typography sx={{ color: "blue" }} component={Link} to="/register">
+                  Đăng kí tài khoản?
+               </Typography>
+            </Box>
+         </Box>
+      </Box>
    );
 };
 

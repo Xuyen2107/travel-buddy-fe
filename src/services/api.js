@@ -1,20 +1,23 @@
 import axios from "axios";
 
+const accessToken = localStorage.getItem("accessToken") !== null ? JSON.parse(localStorage.getItem("accessToken")) : null;
+
 const axiosInstance = axios.create({
    baseURL: import.meta.env.REACT_APP_BASE_API || "https://travel-buddy-be.onrender.com/api/v1",
-   timeout: 30000,
+   timeout: 300000,
    headers: {
-      "x-access-token": localStorage.getItem("accessToken") !== null ? JSON.parse(localStorage.getItem("accessToken")) : null,
+      "x-access-token": accessToken,
    },
 });
 
 export const authAPI = {
    login: (values) => axiosInstance.post("/auth/login", values),
    register: (values) => axiosInstance.post("/auth/register", values),
-   authInfo: (accessToken) =>
-      axiosInstance.get("/auth/profile", {
+   authInfo: () => axiosInstance.get("/auth/profile"),
+   uploadAvatar: (value) =>
+      axiosInstance.put("/user/6540ea06377137077e35aab9/upload-avatar", value, {
          headers: {
-            "x-access-token": accessToken,
+            "Content-Type": "multipart/form-data",
          },
       }),
 };

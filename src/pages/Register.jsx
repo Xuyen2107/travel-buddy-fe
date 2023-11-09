@@ -1,13 +1,13 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { LoadingButton } from "@mui/lab";
-import { Button, TextField } from "@mui/material";
+import { Box, Button, TextField, Typography, useMediaQuery } from "@mui/material";
 import { useFormik } from "formik";
 import { useState } from "react";
 import userValidation from "../validations/userValidation";
 import { authAPI } from "../services/api";
-import style from "../styles/register.module.css";
 
 const Register = () => {
+   const isNonMobileScreens = useMediaQuery("(min-width: 767px)");
    const navigate = useNavigate();
    const [loading, setLoading] = useState(false);
    const [error, setError] = useState(null);
@@ -39,9 +39,32 @@ const Register = () => {
    const { handleSubmit, handleChange, errors, values } = formik;
 
    return (
-      <div className={style.register}>
-         <form className={style.formRegister} onSubmit={handleSubmit}>
-            <h2>Đăng kí</h2>
+      <Box
+         sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "100%",
+            height: "100vh",
+         }}
+      >
+         <Box
+            component="form"
+            onSubmit={handleSubmit}
+            sx={{
+               display: "flex",
+               flexDirection: "column",
+               alignItems: "center",
+               gap: "20px",
+               width: isNonMobileScreens ? "600px" : "90%",
+               padding: "20px",
+               borderLeft: "1px solid",
+               borderTop: "1px solid",
+               boxShadow: "2px 2px 2px",
+               bgcolor: "#fff",
+            }}
+         >
+            <Typography variant="h4">Đăng kí</Typography>
             <TextField
                type="text"
                name="fullName"
@@ -50,7 +73,6 @@ const Register = () => {
                error={errors.fullName}
                helperText={errors.fullName}
                fullWidth
-               margin="dense"
                label="Họ và Tên"
                variant="standard"
             />
@@ -62,7 +84,6 @@ const Register = () => {
                error={errors.userName}
                helperText={errors.userName}
                fullWidth
-               margin="dense"
                label="Tên đăng nhập"
                variant="standard"
             />
@@ -74,7 +95,6 @@ const Register = () => {
                error={errors.email}
                helperText={errors.email}
                fullWidth
-               margin="dense"
                label="Email"
                variant="standard"
             />
@@ -86,7 +106,6 @@ const Register = () => {
                error={errors.phoneNumber}
                helperText={errors.phoneNumber}
                fullWidth
-               margin="dense"
                label="Số điện thoại"
                variant="standard"
             />
@@ -98,7 +117,6 @@ const Register = () => {
                error={errors.password}
                helperText={errors.password}
                fullWidth
-               margin="dense"
                label="Mật khẩu"
                variant="standard"
             />
@@ -110,7 +128,6 @@ const Register = () => {
                error={errors.rePassword}
                helperText={errors.rePassword}
                fullWidth
-               margin="dense"
                label="Nhập lại mật khẩu"
                variant="standard"
             />
@@ -125,9 +142,21 @@ const Register = () => {
                </Button>
             )}
 
-            {error && <p>{error}</p>}
-         </form>
-      </div>
+            {error && <Typography component="label">{error}</Typography>}
+            <Box
+               sx={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: isNonMobileScreens ? "flex-end" : "center",
+                  alignItems: "center",
+               }}
+            >
+               <Typography sx={{ color: "blue" }} component={Link} to="/">
+                  Đăng nhập?
+               </Typography>
+            </Box>
+         </Box>
+      </Box>
    );
 };
 

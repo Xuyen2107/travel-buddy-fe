@@ -10,15 +10,6 @@ const authSlice = createSlice({
    },
 
    reducers: {
-      loginStart: (state) => {
-         return {
-            ...state,
-            loading: true,
-            error: null,
-            user: null,
-         };
-      },
-
       loginSuccess: (state, action) => {
          return {
             ...state,
