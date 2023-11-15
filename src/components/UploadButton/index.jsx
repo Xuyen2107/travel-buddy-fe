@@ -1,8 +1,9 @@
-import { Button, styled, useMediaQuery } from "@mui/material";
+import { Button, styled, useMediaQuery, useTheme } from "@mui/material";
 import { PhotoCamera, Image, VideoCameraBack } from "@mui/icons-material";
-import { authAPI } from "../../services/api";
+import { authAPI, userAPI } from "../../services/api";
 import { useDispatch } from "react-redux";
-import { loginSuccess } from "../../redux/authSlice";
+import { setAvatarUser, uploadStart } from "../../redux/authSlice";
+import { useParams } from "react-router-dom";
 
 const VisuallyHiddenInput = styled("input")({
    clip: "rect(0 0 0 0)",
@@ -29,10 +30,8 @@ const UploadButton = ({ isIconButton = false, isCoverProfileBtn = false , isImag
 
    const uploadAvatar = async (avatar) => {
       try {
-         const accessToken = localStorage.getItem("accessToken") !== null ? JSON.parse(localStorage.getItem("accessToken")) : null;
          await authAPI.uploadAvatar(avatar);
-         const response = await authAPI.authInfo();
-         dispatch(loginSuccess(response.data.userInfo));
+         dispatch(uploadStart());
       } catch (error) {
          console.log(error);
       }
@@ -54,10 +53,10 @@ const UploadButton = ({ isIconButton = false, isCoverProfileBtn = false , isImag
                variant="contained"
                sx={{
                   position: "absolute",
-                  bottom: 10,
-                  right: 10,
+                  bottom: 5,
+                  right: 5,
                   minWidth: "initial",
-                  padding: "6px",
+                  padding: "10px",
                   borderRadius: "50%",
                   "& .MuiButton-startIcon": {
                      margin: 0,
@@ -69,73 +68,26 @@ const UploadButton = ({ isIconButton = false, isCoverProfileBtn = false , isImag
             </Button>
          )}
 
-         {isCoverProfileBtn &&
-            (isNonMobileScreens ? (
-               <Button
-                  variant="contained"
-                  sx={{
-                     display: "flex",
-                     alignItems: "center",
-                     gap: "10px",
-                     textTransform: "none",
-                     position: "absolute",
-                     top: isNonMobileScreens ? "none" : "10px",
-                     bottom: isNonMobileScreens ? "-18px" : "none",
-                     right: "10px",
-                  }}
-                  component="label"
-               >
-                  Chọn ảnh bìa <PhotoCamera sx={{ fontSize: "20px" }} />
-                  <VisuallyHiddenInput type="file" accept="image/*" />
-               </Button>
-            ) : (
-               <Button
-                  component="label"
-                  variant="contained"
-                  sx={{
-                     position: "absolute",
-                     bottom: -10,
-                     right: 10,
-                     minWidth: "initial",
-                     padding: "6px",
-                     borderRadius: "50%",
-                     "& .MuiButton-startIcon": {
-                        margin: 0,
-                     },
-                  }}
-               >
-                  <PhotoCamera sx={{ fontSize: "20px" }} />
-                  <VisuallyHiddenInput type="file" accept="image/*" />
-               </Button>
-            ))}
-
-      {isImageButton && (
+         {isCoverProfileBtn && (
             <Button
-               component="label"
+               variant="contained"
+               endIcon={<PhotoCamera />}
                sx={{
-                  "& .MuiButton-startIcon": {
-                     margin: 0,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  textTransform: "none",
+                  position: "absolute",
+                  bottom: isNonMobileScreens ? -18 : -12,
+                  right: "10px",
+                  "& .MuiButton-endIcon": {
+                     margin: isNonMobileScreens ? "" : 0,
                   },
                }}
-            >
-               <Image color='secondary' />
-               <VisuallyHiddenInput type="file" accept="image/*" onChange={handleChangeImage} data-max-size="5120" multiple/>
-            </Button>
-         )}
-
-
-{isVideoButton && (
-            <Button
                component="label"
-               
-               sx={{
-                  "& .MuiButton-startIcon": {
-                     margin: 0,
-                  },
-               }}
             >
-               <VideoCameraBack color='success' />
-               <VisuallyHiddenInput type="file" accept="image/*" onChange={handleChange} />
+               {isNonMobileScreens && "Chọn ảnh bìa"}
+               <VisuallyHiddenInput type="file" accept="image/*" />
             </Button>
          )}
       </>

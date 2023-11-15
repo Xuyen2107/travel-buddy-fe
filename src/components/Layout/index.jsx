@@ -1,18 +1,14 @@
-import { CssBaseline, ThemeProvider, createTheme } from "@mui/material";
+import { CssBaseline, ThemeProvider } from "@mui/material";
 import { useSelector } from "react-redux";
 import Navigate from "../../routes/Route";
+import { darkTheme, lightTheme } from "../../theme";
 
 const Layout = () => {
    const darkMode = useSelector((state) => state.theme.darkMode);
-
-   const darkTheme = createTheme({
-      palette: {
-         mode: darkMode,
-      },
-   });
+   const theme = darkMode === "dark" ? darkTheme : lightTheme;
 
    return (
-      <ThemeProvider theme={darkTheme}>
+      <ThemeProvider theme={theme}>
          <CssBaseline />
          <Navigate />
       </ThemeProvider>

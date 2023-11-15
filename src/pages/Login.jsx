@@ -1,8 +1,8 @@
 import { LoadingButton } from "@mui/lab";
-import { Box, Button, TextField, Typography, useMediaQuery } from "@mui/material";
+import { Box, Button, TextField, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
-import { loginFailure, loginSuccess } from "../redux/authSlice";
+import { login } from "../redux/authSlice";
 import userValidation from "../validations/userValidation";
 import { authAPI } from "../services/api";
 import { Link, useNavigate } from "react-router-dom";
@@ -10,11 +10,11 @@ import { useState } from "react";
 
 const Login = () => {
    const isNonMobileScreens = useMediaQuery("(min-width: 767px)");
-
    const [loading, setLoading] = useState(false);
    const navigate = useNavigate();
    const dispatch = useDispatch();
    const error = useSelector((state) => state.auth.error);
+   const { palette } = useTheme();
 
    const formik = useFormik({
       initialValues: {
@@ -26,17 +26,16 @@ const Login = () => {
          try {
             setLoading(true);
             const response = await authAPI.login(values);
-            const accessToken = response.data.accessToken;
+            const accessToken = response.data;
             localStorage.setItem("accessToken", JSON.stringify(accessToken));
-            const profileResponse = await authAPI.authInfo();
-            const userInfo = profileResponse.data.userInfo;
-            dispatch(loginSuccess(userInfo));
-            setLoading(false);
+            const profileResponse = await authAPI.authInfo(accessToken);
+            const userInfo = profileResponse.data;
+            dispatch(login(userInfo));
             navigate("/");
-         } catch (error) {
-            dispatch(loginFailure(error.response.data.message || "Có lỗi xảy ra khi đăng nhập"));
             setLoading(false);
+         } catch (error) {
             console.log(error);
+            setLoading(false);
          }
       },
 
@@ -68,7 +67,7 @@ const Login = () => {
                borderLeft: "1px solid",
                borderTop: "1px solid",
                boxShadow: "2px 2px 2px",
-               bgcolor: "#fff",
+               bgcolor: palette.background.paper,
             }}
          >
             <Typography variant="h4">Đăng nhập</Typography>

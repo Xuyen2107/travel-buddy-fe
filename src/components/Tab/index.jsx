@@ -38,7 +38,7 @@ const a11yProps = (index) => {
    };
 };
 
-const TabDefault = () => {
+const TabDefault = ({ userId }) => {
    const location = useLocation();
    const navigate = useNavigate();
    const [value, setValue] = React.useState(0);
@@ -48,9 +48,9 @@ const TabDefault = () => {
    };
 
    React.useEffect(() => {
-      if (location.pathname === "/profile") setValue(0);
-      if (location.pathname === "/profile/vacation") setValue(1);
-      if (location.pathname === "/profile/album") setValue(2);
+      if (location.pathname === `/profile/${userId}`) setValue(0);
+      if (location.pathname === `/profile/${userId}/vacation`) setValue(1);
+      if (location.pathname === `/profile/${userId}/album`) setValue(2);
    }, [location]);
 
    return (
@@ -60,7 +60,7 @@ const TabDefault = () => {
             <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
                <TabFont
                   onClick={() => {
-                     navigate("/profile");
+                     navigate(`/profile/${userId}`);
                   }}
                   sx={{ textTransform: "none" }}
                   label="Bài viết"
@@ -68,14 +68,14 @@ const TabDefault = () => {
                />
                <TabFont
                   onClick={() => {
-                     navigate("/profile/vacation");
+                     navigate(`/profile/${userId}/vacation`);
                   }}
                   label="Kì nghỉ"
                   {...a11yProps(1)}
                />
                <TabFont
                   onClick={() => {
-                     navigate("/profile/album");
+                     navigate(`/profile/${userId}/album`);
                   }}
                   label="Ảnh"
                   {...a11yProps(2)}

@@ -66,7 +66,7 @@ const AccountMenu = () => {
             transformOrigin={{ horizontal: "right", vertical: "top" }}
             anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
          >
-            <MenuItem onClick={handleClose} component={Link} to="/profile">
+            <MenuItem onClick={handleClose} component={Link} to={`/profile/${user._id}`}>
                <Avatar src={user?.avatar} /> {user?.fullName}
             </MenuItem>
             <Divider />

@@ -1,7 +1,8 @@
-import { Box, IconButton, Paper, Typography } from "@mui/material";
+import { Box, IconButton, Paper, Typography, useTheme } from "@mui/material";
 import Carousel from "react-material-ui-carousel";
 import FlexBetween from "../BoxFlexBetween";
 import { ChatBubbleOutlineOutlined, FavoriteBorderOutlined, FavoriteOutlined, ShareOutlined } from "@mui/icons-material";
+import Friend from "../Friend";
 
 const images = [
    "https://vcdn1-dulich.vnecdn.net/2021/07/16/1-1626437591.jpg?w=460&h=0&q=100&dpr=2&fit=crop&s=i2M2IgCcw574LT-bXFY92g",
@@ -9,9 +10,15 @@ const images = [
 ];
 
 const Post = () => {
+   const { palette } = useTheme();
    const isLiked = true;
    return (
-      <Box>
+      <Box width={500} bgcolor={palette.background.paper}>
+         {/* <Friend
+            avatarUrl="https://res.cloudinary.com/dcgytjpvn/image/upload/v1699729127/Travel_Buddy/bdxpefesaywy653wxx8n.jpg"
+            name="Pham Hoang Xuyen"
+            // isFriendListWidget
+         /> */}
          <Carousel
             animation="slide"
             indicators={true}
@@ -19,7 +26,6 @@ const Post = () => {
             navButtonsAlwaysVisible={true}
             fullHeightHover={false}
             sx={{
-               maxWidth: "600px",
                flexGrow: 1,
                margin: "auto",
                mt: 5,
@@ -38,7 +44,6 @@ const Post = () => {
                </FlexBetween>
 
                <FlexBetween gap="0.3rem">
-                  
                   <IconButton>
                      <ChatBubbleOutlineOutlined />
                   </IconButton>
@@ -58,14 +63,22 @@ function Item({ imageUrl }) {
    return (
       <Paper
          sx={{
-            backgroundImage: `url(${imageUrl})`,
-            height: "300px",
-            backgroundSize: "cover",
-            backgroundRepeat: "no-repeat",
-            backgroundPosition: "center",
+            position: "relative",
+            height: "500px",
+            overflow: "hidden",
          }}
          elevation={10}
-      />
+      >
+         <img
+            src={imageUrl}
+            alt="item"
+            style={{
+               width: "100%",
+               height: "100%",
+               objectFit: "cover",
+            }}
+         />
+      </Paper>
    );
 }
 
