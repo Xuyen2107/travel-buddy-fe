@@ -1,5 +1,5 @@
 import { Button, styled, useMediaQuery, useTheme } from "@mui/material";
-import { PhotoCamera } from "@mui/icons-material";
+import { PhotoCamera, Image, VideoCameraBack } from "@mui/icons-material";
 import { authAPI, userAPI } from "../../services/api";
 import { useDispatch } from "react-redux";
 import { setAvatarUser, uploadStart } from "../../redux/authSlice";
@@ -17,7 +17,14 @@ const VisuallyHiddenInput = styled("input")({
    width: 1,
 });
 
-const UploadButton = ({ isIconButton = false, isCoverProfileBtn = false }) => {
+const UploadButton = ({ isIconButton = false, isCoverProfileBtn = false , isImageButton = false, isVideoButton = false, handleFileChange }) => {
+   const handleChangeImage = (e) => {
+      if (handleFileChange) {
+        handleFileChange(e);
+      }
+      // Xử lý thêm nếu cần
+    };
+
    const isNonMobileScreens = useMediaQuery("(min-width: 767px)");
    const dispatch = useDispatch();
 
@@ -36,6 +43,7 @@ const UploadButton = ({ isIconButton = false, isCoverProfileBtn = false }) => {
       formData.append("avatar", file);
       uploadAvatar(formData);
    };
+
 
    return (
       <>

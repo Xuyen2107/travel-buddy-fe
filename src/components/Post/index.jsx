@@ -14,11 +14,11 @@ const Post = () => {
    const isLiked = true;
    return (
       <Box width={500} bgcolor={palette.background.paper}>
-         <Friend
+         {/* <Friend
             avatarUrl="https://res.cloudinary.com/dcgytjpvn/image/upload/v1699729127/Travel_Buddy/bdxpefesaywy653wxx8n.jpg"
             name="Pham Hoang Xuyen"
             // isFriendListWidget
-         />
+         /> */}
          <Carousel
             animation="slide"
             indicators={true}
@@ -29,13 +29,14 @@ const Post = () => {
                flexGrow: 1,
                margin: "auto",
                mt: 5,
+               borderBottom: "1px solid #000",
             }}
          >
             {images.map((imageUrl, i) => (
                <Item key={i} imageUrl={imageUrl} />
             ))}
          </Carousel>
-         <FlexBetween mt="0.25rem" width="100%">
+         <FlexBetween mt="0.25rem" width={500} >
             <FlexBetween gap="1rem">
                <FlexBetween gap="0.3rem">
                   <IconButton>{isLiked ? <FavoriteOutlined sx={{ color: "red" }} /> : <FavoriteBorderOutlined />}</IconButton>
