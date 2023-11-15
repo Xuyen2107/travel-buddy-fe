@@ -36,7 +36,7 @@ const Sidebar = () => {
    };
 
    return (
-      <Box flex={1} sx={{ display: { xs: "none", md: "block" } }}>
+      <Box  sx={{ display: { xs: "none", md: "block" } }}>
          <Box sx={{ width: "100%", maxWidth: 400, bgcolor: "background.paper", position: "sticky", top: 64 }}>
             <nav aria-label="main mailbox folders">
                <List>
