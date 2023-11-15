@@ -7,7 +7,7 @@ import { toggleTheme } from "../../redux/themeSlice";
 
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({
    width: 62,
-   height: 34,
+   height: 33,
    padding: 7,
    "& .MuiSwitch-switchBase": {
       margin: 1,

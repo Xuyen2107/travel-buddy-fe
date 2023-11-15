@@ -21,13 +21,14 @@ const Navigate = () => {
          ) : (
             <Routes>
                <Route path="/" element={<HomePage />} />
-               <Route path="/profile" element={<ProfilePage />}>
+               <Route path="/profile/:userId" element={<ProfilePage />}>
                   <Route path="vacation" element={<VacationDetail />} />
                   <Route path="album" element={<AlbumDetail />} />
                </Route>
                <Route path="/album/:albumId" element={<AlbumDetail />} />
                <Route path="/vacation/:vacationId" element={<VacationDetail />} />
                <Route path="/post/:postId" element={<PostDetail />} />
+               <Route path="/profile/:userId" element={<ProfilePage />} />
                <Route path="*" element={<NotFound />} />
             </Routes>
          )}

@@ -27,11 +27,15 @@ const EditProfile = () => {
 
    return (
       <Box>
-         <Button variant="outlined" onClick={handleOpen}>
-            <FlexBetween gap="0.25rem">
-               <EditIcon />
-               <Typography sx={{ textTransform: "capitalize" }}>Chỉnh sửa trang cá nhân</Typography>
-            </FlexBetween>
+         <Button
+            variant="contained"
+            startIcon={<EditIcon />}
+            sx={{
+               textTransform: "inherit",
+            }}
+            onClick={handleOpen}
+         >
+            Chỉnh sửa trang cá nhân
          </Button>
          <Modal open={open} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
             <Box

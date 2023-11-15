@@ -2,29 +2,28 @@ import { useDispatch, useSelector } from "react-redux";
 import Layout from "./components/Layout";
 import { authAPI } from "./services/api";
 import { useEffect } from "react";
-import { loginSuccess, logout } from "./redux/authSlice";
+import { login, logout } from "./redux/authSlice";
 import Loading from "./components/Loading/Loading";
 import { useNavigate } from "react-router-dom";
 
 const App = () => {
-   const navigate = useNavigate();
    const dispatch = useDispatch();
-   const loading = useSelector((state) => state.auth.loading);
+   const navigate = useNavigate();
+   const { loading } = useSelector((state) => state.auth);
+   const token = useSelector((state) => state.auth.token);
 
    const handleLogout = () => {
       dispatch(logout());
-      localStorage.removeItem("accessToken");
    };
 
    useEffect(() => {
       const fetchData = async () => {
-         const accessToken = localStorage.getItem("accessToken") === null ? null : JSON.parse(localStorage.getItem("accessToken"));
-         if (accessToken) {
+         if (token) {
             try {
-               const response = await authAPI.authInfo(accessToken);
-               const userInfo = response.data.userInfo;
+               const response = await authAPI.authInfo(token);
+               const userInfo = response.data;
                setTimeout(() => {
-                  dispatch(loginSuccess(userInfo));
+                  dispatch(login(userInfo));
                }, 1000);
             } catch (error) {
                handleLogout();

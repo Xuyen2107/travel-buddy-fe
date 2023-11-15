@@ -1,5 +1,5 @@
 import { styled } from "@mui/material/styles";
-import { AppBar, Box, Toolbar, IconButton, Typography, InputBase, Badge, useTheme } from "@mui/material";
+import { AppBar, Box, Toolbar, IconButton, Typography, InputBase, Badge, useTheme, Button } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
@@ -8,7 +8,7 @@ import AccountMenu from "../AccountMenu";
 import { Link } from "react-router-dom";
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
-   color: "inherit",
+   color: "primary",
    "& .MuiInputBase-input": {
       padding: theme.spacing(1, 1, 1, 0),
       paddingLeft: `calc(1em + ${theme.spacing(4)})`,
@@ -21,9 +21,14 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const Navbar = () => {
-   const theme = useTheme();
+   const { palette } = useTheme();
    return (
-      <AppBar position="sticky">
+      <AppBar
+         position="sticky"
+         sx={{
+            bgcolor: palette.background.paper,
+         }}
+      >
          <Toolbar>
             <Typography
                variant="h5"
@@ -43,7 +48,7 @@ const Navbar = () => {
                position="relative"
                sx={{
                   ml: "20px",
-                  border: theme.palette.mode === "dark" ? "1px solid #fff" : "1px solid #000",
+                  border: palette.mode === "dark" ? "1px solid #fff" : "1px solid #000",
                   borderRadius: "20px",
                }}
                onSubmit={(e) => e.preventDefault()}
@@ -54,18 +59,18 @@ const Navbar = () => {
                </IconButton>
             </Box>
             <Box sx={{ flexGrow: 1, textAlign: "center" }} />
-            <Box sx={{ display: "flex" }}>
+            <Box sx={{ display: "flex", gap: "10px" }}>
                <SwitchControl />
-               <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-                  <Badge badgeContent={4} color="error">
+               {/* <IconButton size="medium" aria-label="show 4 new mails">
+                  <Badge badgeContent={1} color="error">
                      <ChatBubbleIcon />
                   </Badge>
                </IconButton>
-               <IconButton size="large" aria-label="show 17 new notifications" color="inherit">
-                  <Badge badgeContent={17} color="error">
+               <IconButton size="medium" aria-label="show 17 new notifications">
+                  <Badge badgeContent={1} color="error">
                      <NotificationsIcon />
                   </Badge>
-               </IconButton>
+               </IconButton> */}
                <AccountMenu />
             </Box>
          </Toolbar>

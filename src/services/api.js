@@ -3,7 +3,7 @@ import axios from "axios";
 const accessToken = localStorage.getItem("accessToken") !== null ? JSON.parse(localStorage.getItem("accessToken")) : null;
 
 const axiosInstance = axios.create({
-   baseURL: import.meta.env.REACT_APP_BASE_API || "https://travel-buddy-be.onrender.com/api/v1",
+   baseURL: import.meta.env.REACT_APP_BASE_API || "http://localhost:3001/api/v1",
    timeout: 300000,
    headers: {
       "x-access-token": accessToken,
@@ -13,13 +13,40 @@ const axiosInstance = axios.create({
 export const authAPI = {
    login: (values) => axiosInstance.post("/auth/login", values),
    register: (values) => axiosInstance.post("/auth/register", values),
-   authInfo: () => axiosInstance.get("/auth/profile"),
+   authInfo: (accessToken) =>
+      axiosInstance.get("/auth/profile", {
+         headers: {
+            "x-access-token": accessToken,
+         },
+      }),
    uploadAvatar: (value) =>
-      axiosInstance.put("/user/6540ea06377137077e35aab9/upload-avatar", value, {
+      axiosInstance.put("/user/upload-avatar", value, {
          headers: {
             "Content-Type": "multipart/form-data",
          },
       }),
+};
+
+export const userAPI = {
+   getSingle: (userId) => axiosInstance.get(`/user/profile/${userId}`),
+   update: (userId, value) =>
+      axiosInstance.put(`/user/:${userId}`, value, {
+         headers: {
+            "Content-Type": "application/json",
+         },
+      }),
+   uploadAvatar: (userId, value) =>
+      axiosInstance.put(`/user/upload-avatar/${userId}`, value, {
+         headers: {
+            "Content-Type": "multipart/form-data",
+         },
+      }),
+   updatePassword: (userId, value) => axiosInstance.put(`/user/update-password/${userId}`, value),
+   getFriends: (userId) => axiosInstance.get(`/user/friends/${userId}`),
+   getSingleFriend: (userId) => axiosInstance.get(`/user/friend/${userId}`),
+   sendFriend: (userId) => axiosInstance.post(`/user/send-friend/${userId}`),
+   acceptFriend: (userId) => axiosInstance.put(`/user/accept-friend/${userId}`),
+   removeFriend: (userId) => axiosInstance.put(`/user/remove-friend/${userId}`),
 };
 
 export const vacationAPI = {
@@ -37,7 +64,7 @@ export const vacationAPI = {
             "Content-Type": "multipart/form-data",
          },
       }),
-   remove: (vacationId) => axiosInstance.put(`/vacation/${vacationId}/remove`),
+   remove: (vacationId) => axiosInstance.delete(`/vacation/${vacationId}/remove`),
 };
 
 export const postAPI = {
@@ -56,7 +83,7 @@ export const postAPI = {
             "Content-Type": "multipart/form-data",
          },
       }),
-   remove: (postId) => axiosInstance.put(`/post/${postId}/delete`),
+   remove: (postId) => axiosInstance.delete(`/post/${postId}/delete`),
    like: (postId) => axiosInstance.put(`/post/${postId}/like`),
 };
 
@@ -76,5 +103,5 @@ export const albumAPI = {
             "Content-Type": "multipart/form-data",
          },
       }),
-   remove: (albumId) => axiosInstance.put(`/album/${albumId}/delete`),
+   remove: (albumId) => axiosInstance.delete(`/album/${albumId}/delete`),
 };
