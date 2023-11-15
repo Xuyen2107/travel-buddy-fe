@@ -1,5 +1,5 @@
 import { Button, styled, useMediaQuery } from "@mui/material";
-import { PhotoCamera } from "@mui/icons-material";
+import { PhotoCamera, Image, VideoCameraBack } from "@mui/icons-material";
 import { authAPI } from "../../services/api";
 import { useDispatch } from "react-redux";
 import { loginSuccess } from "../../redux/authSlice";
@@ -16,7 +16,14 @@ const VisuallyHiddenInput = styled("input")({
    width: 1,
 });
 
-const UploadButton = ({ isIconButton = false, isCoverProfileBtn = false }) => {
+const UploadButton = ({ isIconButton = false, isCoverProfileBtn = false , isImageButton = false, isVideoButton = false, handleFileChange }) => {
+   const handleChangeImage = (e) => {
+      if (handleFileChange) {
+        handleFileChange(e);
+      }
+      // Xử lý thêm nếu cần
+    };
+
    const isNonMobileScreens = useMediaQuery("(min-width: 767px)");
    const dispatch = useDispatch();
 
@@ -37,6 +44,7 @@ const UploadButton = ({ isIconButton = false, isCoverProfileBtn = false }) => {
       formData.append("avatar", file);
       uploadAvatar(formData);
    };
+
 
    return (
       <>
@@ -100,6 +108,36 @@ const UploadButton = ({ isIconButton = false, isCoverProfileBtn = false }) => {
                   <VisuallyHiddenInput type="file" accept="image/*" />
                </Button>
             ))}
+
+      {isImageButton && (
+            <Button
+               component="label"
+               sx={{
+                  "& .MuiButton-startIcon": {
+                     margin: 0,
+                  },
+               }}
+            >
+               <Image color='secondary' />
+               <VisuallyHiddenInput type="file" accept="image/*" onChange={handleChangeImage} data-max-size="5120" multiple/>
+            </Button>
+         )}
+
+
+{isVideoButton && (
+            <Button
+               component="label"
+               
+               sx={{
+                  "& .MuiButton-startIcon": {
+                     margin: 0,
+                  },
+               }}
+            >
+               <VideoCameraBack color='success' />
+               <VisuallyHiddenInput type="file" accept="image/*" onChange={handleChange} />
+            </Button>
+         )}
       </>
    );
 };

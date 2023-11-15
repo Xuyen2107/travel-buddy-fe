@@ -23,13 +23,14 @@ const Post = () => {
                flexGrow: 1,
                margin: "auto",
                mt: 5,
+               borderBottom: "1px solid #000",
             }}
          >
             {images.map((imageUrl, i) => (
                <Item key={i} imageUrl={imageUrl} />
             ))}
          </Carousel>
-         <FlexBetween mt="0.25rem" width={500}>
+         <FlexBetween mt="0.25rem" width={500} >
             <FlexBetween gap="1rem">
                <FlexBetween gap="0.3rem">
                   <IconButton>{isLiked ? <FavoriteOutlined sx={{ color: "red" }} /> : <FavoriteBorderOutlined />}</IconButton>
@@ -37,7 +38,7 @@ const Post = () => {
                </FlexBetween>
 
                <FlexBetween gap="0.3rem">
-                  z
+                  
                   <IconButton>
                      <ChatBubbleOutlineOutlined />
                   </IconButton>
@@ -58,7 +59,7 @@ function Item({ imageUrl }) {
       <Paper
          sx={{
             backgroundImage: `url(${imageUrl})`,
-            height: "500px",
+            height: "300px",
             backgroundSize: "cover",
             backgroundRepeat: "no-repeat",
             backgroundPosition: "center",
