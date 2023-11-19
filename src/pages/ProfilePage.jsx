@@ -4,7 +4,12 @@ import ProfileTop from "../components/ProfileTop";
 import Post from "../components/Post";
 import ListFriend from "../components/ListFriend";
 
+
+import AlbumDetails from "./AlbumDetail";
+import CreateAlbum from "./createAlbum";
+
 const ProfilePage = () => {
+   
    return (
       <Box>
          <Navbar />
@@ -19,11 +24,8 @@ const ProfilePage = () => {
             }}
          >
             <Box>
-               <ListFriend />
+               <ListFriend />   
             </Box>
-            {/* <Box>
-               <Post />
-            </Box> */}
          </Box>
       </Box>
    );
