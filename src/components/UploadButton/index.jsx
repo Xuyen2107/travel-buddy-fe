@@ -17,13 +17,13 @@ const VisuallyHiddenInput = styled("input")({
    width: 1,
 });
 
-const UploadButton = ({ isIconButton = false, isCoverProfileBtn = false , isImageButton = false, isVideoButton = false, handleFileChange }) => {
+const UploadButton = ({ isIconButton = false, isCoverProfileBtn = false, isImageButton = false, isVideoButton = false, handleFileChange }) => {
    const handleChangeImage = (e) => {
       if (handleFileChange) {
-        handleFileChange(e);
+         handleFileChange(e);
       }
       // Xử lý thêm nếu cần
-    };
+   };
 
    const isNonMobileScreens = useMediaQuery("(min-width: 767px)");
    const dispatch = useDispatch();
@@ -43,7 +43,6 @@ const UploadButton = ({ isIconButton = false, isCoverProfileBtn = false , isImag
       formData.append("avatar", file);
       uploadAvatar(formData);
    };
-
 
    return (
       <>

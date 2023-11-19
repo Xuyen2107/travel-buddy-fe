@@ -1,14 +1,18 @@
 import { Link, useNavigate } from "react-router-dom";
 import { LoadingButton } from "@mui/lab";
-import { Box, Button, TextField, Typography, useMediaQuery } from "@mui/material";
+import { Box, Button, Typography, useMediaQuery } from "@mui/material";
 import { useFormik } from "formik";
 import { useState } from "react";
 import userValidation from "../validations/userValidation";
 import { authAPI } from "../services/api";
+import { TextFieldCustom } from "../styles/TextFieldCustom";
+import { login } from "../redux/authSlice";
+import { useDispatch } from "react-redux";
 
 const Register = () => {
    const isNonMobileScreens = useMediaQuery("(min-width: 767px)");
    const navigate = useNavigate();
+   const dispatch = useDispatch();
    const [loading, setLoading] = useState(false);
    const [error, setError] = useState(null);
 
@@ -25,10 +29,16 @@ const Register = () => {
       onSubmit: async (values) => {
          try {
             setLoading(true);
-            await authAPI.register(values);
-            navigate("/login");
+            const response = await authAPI.register(values);
+            const accessToken = response.data;
+            localStorage.setItem("accessToken", JSON.stringify(accessToken));
+            const profileResponse = await authAPI.authInfo(accessToken);
+            const userInfo = profileResponse.data;
+            dispatch(login(userInfo));
+            navigate("/");
             setLoading(false);
          } catch (error) {
+            setLoading(false);
             setError(error.response.data.message);
          }
       },
@@ -46,6 +56,7 @@ const Register = () => {
             alignItems: "center",
             width: "100%",
             height: "100vh",
+            background: `url("https://stride.com.au/wp-content/uploads/2022/04/social-wellness.jpg")`,
          }}
       >
          <Box
@@ -55,86 +66,75 @@ const Register = () => {
                display: "flex",
                flexDirection: "column",
                alignItems: "center",
-               gap: "20px",
+               gap: "18px",
                width: isNonMobileScreens ? "600px" : "90%",
                padding: "20px",
                borderLeft: "1px solid",
                borderTop: "1px solid",
                boxShadow: "2px 2px 2px",
-               bgcolor: "#fff",
+               bgcolor: "background.paper",
+               borderRadius: "10px ",
             }}
          >
             <Typography variant="h4">Đăng kí</Typography>
-            <TextField
+            <TextFieldCustom
                type="text"
                name="fullName"
                value={values.fullName}
                onChange={handleChange}
                error={errors.fullName}
                helperText={errors.fullName}
-               fullWidth
                label="Họ và Tên"
-               variant="standard"
             />
-            <TextField
+            <TextFieldCustom
                type="text"
                name="userName"
                value={values.userName}
                onChange={handleChange}
                error={errors.userName}
                helperText={errors.userName}
-               fullWidth
                label="Tên đăng nhập"
-               variant="standard"
             />
-            <TextField
+            <TextFieldCustom
                name="email"
                type="email"
                value={values.email}
                onChange={handleChange}
                error={errors.email}
                helperText={errors.email}
-               fullWidth
                label="Email"
-               variant="standard"
             />
-            <TextField
+            <TextFieldCustom
                name="phoneNumber"
                type="tel"
                value={values.phoneNumber}
                onChange={handleChange}
                error={errors.phoneNumber}
                helperText={errors.phoneNumber}
-               fullWidth
                label="Số điện thoại"
-               variant="standard"
             />
-            <TextField
+            <TextFieldCustom
                name="password"
                type="password"
                value={values.password}
                onChange={handleChange}
                error={errors.password}
                helperText={errors.password}
-               fullWidth
                label="Mật khẩu"
-               variant="standard"
             />
-            <TextField
+            <TextFieldCustom
                name="rePassword"
                type="password"
                value={values.rePassword}
                onChange={handleChange}
                error={errors.rePassword}
                helperText={errors.rePassword}
-               fullWidth
                label="Nhập lại mật khẩu"
-               variant="standard"
             />
 
             {loading ? (
                <LoadingButton loading variant="outlined">
-                  Submit
+                  Đăng kí
                </LoadingButton>
             ) : (
                <Button type="submit" variant="contained">
@@ -142,7 +142,18 @@ const Register = () => {
                </Button>
             )}
 
-            {error && <Typography component="label">{error}</Typography>}
+            {error && (
+               <Typography
+                  component="p"
+                  sx={{
+                     fontSize: "1rem",
+                     color: "red",
+                     m: "0 14px",
+                  }}
+               >
+                  {error}
+               </Typography>
+            )}
             <Box
                sx={{
                   width: "100%",

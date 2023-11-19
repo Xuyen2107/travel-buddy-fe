@@ -56,15 +56,17 @@ export const vacationAPI = {
             "Content-Type": "multipart/form-data",
          },
       }),
-   getSingle: (vacationId) => axiosInstance.get(`/vacation/${vacationId}`),
+   getSingle: (vacationId) => axiosInstance.get(`/vacation/single/${vacationId}`),
    getAll: () => axiosInstance.get("/vacation/all"),
+   getAllOfUser: () => axiosInstance.get("/vacation/all-user"),
+   getAllByUser: () => axiosInstance.get("/vacation/all-by-user"),
    update: (vacationId, values) =>
-      axiosInstance.put(`/vacation/${vacationId}/update`, values, {
+      axiosInstance.put(`/vacation/update/${vacationId}`, values, {
          headers: {
             "Content-Type": "multipart/form-data",
          },
       }),
-   remove: (vacationId) => axiosInstance.delete(`/vacation/${vacationId}/remove`),
+   remove: (vacationId) => axiosInstance.delete(`/vacation/remove/${vacationId}`),
 };
 
 export const postAPI = {

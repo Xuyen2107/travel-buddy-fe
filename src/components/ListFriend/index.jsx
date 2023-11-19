@@ -1,13 +1,9 @@
 import { Box, Divider, Typography } from "@mui/material";
-import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
-import Friend from "../Friend";
 import { useEffect, useState } from "react";
 import UserImage from "../UserImage";
 import { userAPI } from "../../services/api";
-import FlexBetween from "../BoxFlexBetween";
 import { useTheme } from "@emotion/react";
-import { bool } from "prop-types";
 
 const ListFriend = () => {
    const [friends, setFriends] = useState([]);
