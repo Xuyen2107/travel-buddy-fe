@@ -89,6 +89,22 @@ const UploadButton = ({ isIconButton = false, isCoverProfileBtn = false, isImage
                <VisuallyHiddenInput type="file" accept="image/*" />
             </Button>
          )}
+
+{handleFileChange && (
+             <Button
+             component="label"
+             variant="success"
+             sx={{
+               padding: "10px",
+               "& .MuiButton-startIcon": {
+                 margin: 0,
+               },
+             }}
+           >
+             <PhotoCamera sx={{ fontSize: "20px", marginRight: "10px"}} /> Chọn ảnh hoặc video
+             <VisuallyHiddenInput type="file" accept="image/*" onChange={handleChangeImage} />
+           </Button>
+         )}
       </>
    );
 };

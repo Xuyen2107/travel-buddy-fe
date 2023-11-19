@@ -17,7 +17,7 @@ const AlbumPost = () => {
       try {
          // Sử dụng Axios để gọi API
          const response = await albumAPI.getAll();
-         console.log("🚀 ~ file: AlbumPost.jsx:17 ~ fetchData ~ response:", response.data.docs);
+         
 
          // Lấy dữ liệu từ response và cập nhật state
          setData(response.data.docs);
@@ -59,14 +59,14 @@ const AlbumPost = () => {
    return (
       <Box sx={{ display: "flex", flexDirection: "column", width: "100%", alignItems: "center" }}>
          {data?.map((albumData) => (
-            <Card key={albumData.id} sx={{ marginBottom: "8px", border: "1px solid #000" }}>
+            <Card key={albumData?.id} sx={{ marginBottom: "8px", border: "1px solid #000" }}>
                <CardActionArea>
                   <Box sx={{ display: "flex", alignItems: "center", borderBottom: "1px solid #000", padding: "12px" }}>
                      <Avatar src={albumData?.author?.avatar} alt="Author Avatar" />
                      <Box sx={{ marginLeft: "12px" }}>
                         <Typography variant="h6">{albumData?.author?.fullName}</Typography>
                         <Typography variant="body2" color="textSecondary">
-                           {albumData.isPublic}
+                           {albumData?.isPublic}
                         </Typography>
                      </Box>
                      <IconButton sx={{ marginLeft: "auto" }} onClick={handleMenuClick}>
@@ -79,7 +79,7 @@ const AlbumPost = () => {
                   </Box>
                   <CardContent>
                      <Typography gutterBottom variant="h5" component="div">
-                        {albumData.nameAlbum}
+                        {albumData?.nameAlbum}
                      </Typography>
                      <Typography variant="subtitle1">Vacation: {albumData.vacation}</Typography>
                      {/* Add more details as needed */}
