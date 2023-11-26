@@ -9,42 +9,34 @@
    padding: 0;
 }
 
-img,
-picture,
-svg,
-video {
-   display: block;
-   max-width: 100%;
-}
-
-input,
-select,
-textarea {
-   background-color: transparent;
-   outline: none;
-}
-
-button {
-   cursor: pointer;
-   background-color: transparent;
-   outline: none;
-   border: 0;
-}
-
 body {
-   min-height: 100vh;
-   font-weight: 400;
-   font-size: 16px;
-   line-height: 1;
-   background-color: #f0f2f5;
+   background-color: #cccc;
 }
 
 a {
    text-decoration: none;
-   color: #000;
+   color: auto;
 }
 
-ol,
-ul {
-   list-style: none;
+input::-webkit-calendar-picker-indicator {
+   cursor: pointer;
+}
+
+button {
+   cursor: pointer;
+   border: none;
+   background: none;
+}
+
+::-webkit-scrollbar {
+   width: "8px";
+}
+
+::-webkit-scrollbar-thumb {
+   background: #bdbdbd;
+   border-radius: 10px;
+}
+
+::-webkit-scrollbar-button {
+   display: "none";
 }
