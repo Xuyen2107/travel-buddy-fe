@@ -1,20 +1,20 @@
 import { LoadingButton } from "@mui/lab";
-import { Box, Button, TextField, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Box, Button, Typography, useMediaQuery } from "@mui/material";
 import { useFormik } from "formik";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { login } from "../redux/authSlice";
 import userValidation from "../validations/userValidation";
 import { authAPI } from "../services/api";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { BoxColumn, TextFieldCustom } from "../styles/index";
 
 const Login = () => {
    const isNonMobileScreens = useMediaQuery("(min-width: 767px)");
    const [loading, setLoading] = useState(false);
+   const [error, setError] = useState("");
    const navigate = useNavigate();
    const dispatch = useDispatch();
-   const error = useSelector((state) => state.auth.error);
-   const { palette } = useTheme();
 
    const formik = useFormik({
       initialValues: {
@@ -29,12 +29,12 @@ const Login = () => {
             const accessToken = response.data;
             localStorage.setItem("accessToken", JSON.stringify(accessToken));
             const profileResponse = await authAPI.authInfo(accessToken);
-            const userInfo = profileResponse.data;
-            dispatch(login(userInfo));
+            dispatch(login(profileResponse.data));
             navigate("/");
             setLoading(false);
          } catch (error) {
-            console.log(error);
+            console.error(error);
+            setError(error.response.data.message);
             setLoading(false);
          }
       },
@@ -52,49 +52,42 @@ const Login = () => {
             alignItems: "center",
             width: "100%",
             height: "100vh",
+            background: `url("https://stride.com.au/wp-content/uploads/2022/04/social-wellness.jpg")`,
          }}
       >
-         <Box
+         <BoxColumn
             component="form"
             onSubmit={handleSubmit}
             sx={{
-               display: "flex",
-               flexDirection: "column",
-               alignItems: "center",
-               gap: "20px",
+               gap: "18px",
                width: isNonMobileScreens ? "600px" : "90%",
                padding: "20px",
                borderLeft: "1px solid",
                borderTop: "1px solid",
                boxShadow: "2px 2px 2px",
-               bgcolor: palette.background.paper,
+               bgcolor: "background.paper",
+               borderRadius: "10px",
             }}
          >
             <Typography variant="h4">Đăng nhập</Typography>
-            <TextField
+            <TextFieldCustom
                type="text"
                name="loginInfo"
                value={values.loginInfo}
                onChange={handleChange}
                error={errors.loginInfo}
                helperText={errors.loginInfo}
-               fullWidth
-               margin="dense"
                label="Tên đăng nhập, email, hoặc số điện thoại"
-               variant="standard"
             />
 
-            <TextField
+            <TextFieldCustom
                name="password"
                type="password"
                value={values.password}
                onChange={handleChange}
                error={errors.password}
                helperText={errors.password}
-               fullWidth
-               margin="dense"
                label="Mật khẩu"
-               variant="standard"
             />
 
             {loading ? (
@@ -107,7 +100,18 @@ const Login = () => {
                </Button>
             )}
 
-            {error && <p>{error}</p>}
+            {error && (
+               <Typography
+                  component="p"
+                  sx={{
+                     fontSize: "1rem",
+                     color: "red",
+                     m: "0 14px",
+                  }}
+               >
+                  {error}
+               </Typography>
+            )}
 
             <Box
                sx={{
@@ -125,7 +129,7 @@ const Login = () => {
                   Đăng kí tài khoản?
                </Typography>
             </Box>
-         </Box>
+         </BoxColumn>
       </Box>
    );
 };

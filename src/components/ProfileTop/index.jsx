@@ -1,6 +1,5 @@
-import { Box, Button, Typography, useMediaQuery, useTheme } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { Box, Button, Typography, useMediaQuery } from "@mui/material";
+import { useSelector } from "react-redux";
 import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
 import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
 import SendIcon from "@mui/icons-material/Send";
@@ -8,84 +7,18 @@ import UploadButton from "../UploadButton";
 import FlexBetween from "../BoxFlexBetween";
 import TabDefault from "../Tab";
 import EditProfile from "../EditProfile";
-import { useEffect, useState } from "react";
-import { userAPI } from "../../services/api";
-import { uploadFinish } from "../../redux/authSlice";
+import PropTypes from "prop-types";
 
-const ProfileTop = () => {
-   const [profile, setProfile] = useState(null);
-   const [friend, setFriend] = useState(null);
-   const { palette } = useTheme();
+const ProfileTop = ({ userProfile, friend, onChange, handleUpdateUser, handleSendFriend, handleAcceptFriend, handleRemoveFriend }) => {
+   const { userLogin } = useSelector((state) => state.auth);
    const isNonMobileScreens = useMediaQuery("(min-width: 767px)");
-   const userId = useParams().userId;
-   const { user, upload } = useSelector((state) => state.auth);
-   const isLoggedInUser = userId === user._id;
-   const sender = user._id === friend?.sender;
-   const dispatch = useDispatch();
-
-   useEffect(() => {
-      if (userId) {
-         fetchDataUser();
-         fetchDataFriend();
-      }
-
-      if (upload) {
-         fetchDataUser;
-         dispatch(uploadFinish());
-      }
-   }, [userId, upload]);
-
-   const fetchDataUser = async () => {
-      try {
-         const response = await userAPI.getSingle(userId);
-         setProfile(response.data);
-      } catch (error) {
-         console.error(error);
-         setProfile(null);
-      }
-   };
-
-   const fetchDataFriend = async () => {
-      try {
-         const response = await userAPI.getSingleFriend(userId);
-         setFriend(response.data);
-      } catch (error) {
-         console.error(error);
-         setFriend(null);
-      }
-   };
-
-   const handleRemoveFriend = async () => {
-      try {
-         await userAPI.removeFriend(userId);
-         await fetchDataFriend();
-      } catch (error) {
-         console.error(error);
-      }
-   };
-
-   const handleSendFriend = async () => {
-      try {
-         await userAPI.sendFriend(userId);
-         await fetchDataFriend();
-      } catch (error) {
-         console.error(error);
-      }
-   };
-
-   const handleAcceptFriend = async () => {
-      try {
-         await userAPI.acceptFriend(userId);
-         await fetchDataFriend();
-      } catch (error) {
-         console.error(error);
-      }
-   };
+   const isLoggedInUser = userProfile?._id === userLogin?._id;
+   const sender = userLogin?._id === friend?.sender;
 
    return (
       <>
-         {profile && (
-            <Box bgcolor={palette.background.paper}>
+         {userProfile && (
+            <Box bgcolor="background.paper">
                <Box
                   maxWidth="60rem"
                   height={isNonMobileScreens ? "30rem" : "35rem"}
@@ -148,11 +81,11 @@ const ProfileTop = () => {
                            width="100%"
                            height="100%"
                            border="2px solid"
-                           src={profile?.avatar}
+                           src={userProfile?.avatar}
                            alt="avatar"
                         />
                      </Box>
-                     {isLoggedInUser && <UploadButton isIconButton />}
+                     {isLoggedInUser && <UploadButton onChange={onChange} isIconButton />}
                   </Box>
                   <Box
                      sx={{
@@ -174,13 +107,13 @@ const ProfileTop = () => {
                            fontSize: isNonMobileScreens ? "2rem" : "1.8rem",
                         }}
                      >
-                        {profile?.fullName}
+                        {userProfile?.fullName}
                      </Typography>
                      {isLoggedInUser ? (
-                        <EditProfile />
+                        <EditProfile handleUpdateUser={handleUpdateUser} />
                      ) : (
                         <>
-                           {!friend ? (
+                           {friend === null ? (
                               <Button
                                  variant="contained"
                                  startIcon={<PersonAddAlt1Icon />}
@@ -193,7 +126,7 @@ const ProfileTop = () => {
                               </Button>
                            ) : (
                               <FlexBetween gap="1rem">
-                                 {friend?.status === 1 ? (
+                                 {friend?.status === 2 ? (
                                     <>
                                        <Button
                                           variant="contained"
@@ -263,12 +196,22 @@ const ProfileTop = () => {
                         </>
                      )}
                   </Box>
-                  <TabDefault userId={userId} />
+                  <TabDefault userId={userProfile?._id} />
                </Box>
             </Box>
          )}
       </>
    );
+};
+
+ProfileTop.propTypes = {
+   userProfile: PropTypes.object.isRequired,
+   friend: PropTypes.object.isRequired,
+   onChange: PropTypes.func.isRequired,
+   handleUpdateUser: PropTypes.func.isRequired,
+   handleSendFriend: PropTypes.func.isRequired,
+   handleAcceptFriend: PropTypes.func.isRequired,
+   handleRemoveFriend: PropTypes.func.isRequired,
 };
 
 export default ProfileTop;

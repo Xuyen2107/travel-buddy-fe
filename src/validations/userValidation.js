@@ -56,6 +56,20 @@ const userValidation = (method) => {
       }));
    }
 
+   if (method === "updateUser") {
+      return (validateUser = Yup.object().shape({
+         fullName: fullNameSchema,
+         userName: userNameSchema,
+         email: emailSchema,
+         phoneNumber: phoneNumberSchema,
+         age: Yup.number().required("Tuổi không được để trống"),
+         dateOfBirth: Yup.string().required("Ngày sinh không được để trống"),
+         gender: Yup.number().oneOf([1, 2, 3], "Giới tính không hợp lệ").required("Giới tính không được để trống"),
+         describe: Yup.string().required("Mô tả không được để trống"),
+         city: Yup.object().required("Thành phố không được để trống"),
+      }));
+   }
+
    return validateUser;
 };
 

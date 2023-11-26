@@ -1,40 +1,19 @@
-import { useDispatch, useSelector } from "react-redux";
-import Layout from "./components/Layout";
-import { authAPI } from "./services/api";
-import { useEffect } from "react";
-import { login, logout } from "./redux/authSlice";
+import { useSelector } from "react-redux";
 import Loading from "./components/Loading/Loading";
-import { useNavigate } from "react-router-dom";
+import AuthHook from "./hooks/authHook";
+import { useEffect } from "react";
+import { CssBaseline, ThemeProvider } from "@mui/material";
+import Navigate from "./routes/Route";
+import { darkTheme, lightTheme } from "./theme";
 
 const App = () => {
-   const dispatch = useDispatch();
-   const navigate = useNavigate();
    const { loading } = useSelector((state) => state.auth);
-   const token = useSelector((state) => state.auth.token);
-
-   const handleLogout = () => {
-      dispatch(logout());
-   };
+   const { fetchDataUseLogin } = AuthHook();
+   const darkMode = useSelector((state) => state.theme.darkMode);
+   const theme = darkMode === "dark" ? darkTheme : lightTheme;
 
    useEffect(() => {
-      const fetchData = async () => {
-         if (token) {
-            try {
-               const response = await authAPI.authInfo(token);
-               const userInfo = response.data;
-               setTimeout(() => {
-                  dispatch(login(userInfo));
-               }, 1000);
-            } catch (error) {
-               handleLogout();
-               navigate("/");
-            }
-         } else {
-            handleLogout();
-         }
-      };
-
-      fetchData();
+      fetchDataUseLogin();
    }, []);
 
    return (
@@ -42,9 +21,10 @@ const App = () => {
          {loading ? (
             <Loading />
          ) : (
-            <div>
-               <Layout />
-            </div>
+            <ThemeProvider theme={theme}>
+               <CssBaseline />
+               <Navigate />
+            </ThemeProvider>
          )}
       </>
    );

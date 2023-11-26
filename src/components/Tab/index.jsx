@@ -57,7 +57,7 @@ const TabDefault = ({ userId }) => {
       <Box sx={{ width: "100%", gridArea: "bottom" }}>
          <Divider />
          <Box>
-            <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+            <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" centered>
                <TabFont
                   onClick={() => {
                      navigate(`/profile/${userId}`);
