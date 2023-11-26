@@ -2,8 +2,8 @@ import { Button, styled, useMediaQuery, useTheme } from "@mui/material";
 import { PhotoCamera, Image, VideoCameraBack } from "@mui/icons-material";
 import { authAPI, userAPI } from "../../services/api";
 import { useDispatch } from "react-redux";
-import { setAvatarUser, uploadStart } from "../../redux/authSlice";
 import { useParams } from "react-router-dom";
+import useUser from "../../hooks/useUser";
 
 const VisuallyHiddenInput = styled("input")({
    clip: "rect(0 0 0 0)",
@@ -17,32 +17,22 @@ const VisuallyHiddenInput = styled("input")({
    width: 1,
 });
 
-const UploadButton = ({ isIconButton = false, isCoverProfileBtn = false, isImageButton = false, isVideoButton = false, handleFileChange }) => {
-   const handleChangeImage = (e) => {
-      if (handleFileChange) {
-         handleFileChange(e);
-      }
-      // Xử lý thêm nếu cần
-   };
-
+const UploadButton = ({
+   userId,
+   isIconButton = false,
+   isCoverProfileBtn = false,
+   isImageButton = false,
+   isVideoButton = false,
+   handleFileChange,
+   onChange,
+}) => {
+   // const handleChangeImage = (e) => {
+   //    if (handleFileChange) {
+   //       handleFileChange(e);
+   //    }
+   //    // Xử lý thêm nếu cần
+   // };
    const isNonMobileScreens = useMediaQuery("(min-width: 767px)");
-   const dispatch = useDispatch();
-
-   const uploadAvatar = async (avatar) => {
-      try {
-         await authAPI.uploadAvatar(avatar);
-         dispatch(uploadStart());
-      } catch (error) {
-         console.log(error);
-      }
-   };
-
-   const handleChange = (e) => {
-      const file = e.target.files[0];
-      const formData = new FormData();
-      formData.append("avatar", file);
-      uploadAvatar(formData);
-   };
 
    return (
       <>
@@ -63,7 +53,7 @@ const UploadButton = ({ isIconButton = false, isCoverProfileBtn = false, isImage
                }}
             >
                <PhotoCamera sx={{ fontSize: "20px" }} />
-               <VisuallyHiddenInput type="file" accept="image/*" onChange={handleChange} />
+               <VisuallyHiddenInput type="file" accept="image/*" onChange={onChange} />
             </Button>
          )}
 
@@ -90,20 +80,20 @@ const UploadButton = ({ isIconButton = false, isCoverProfileBtn = false, isImage
             </Button>
          )}
 
-{handleFileChange && (
-             <Button
-             component="label"
-             variant="success"
-             sx={{
-               padding: "10px",
-               "& .MuiButton-startIcon": {
-                 margin: 0,
-               },
-             }}
-           >
-             <PhotoCamera sx={{ fontSize: "20px", marginRight: "10px"}} /> Chọn ảnh hoặc video
-             <VisuallyHiddenInput type="file" accept="image/*" onChange={handleChangeImage} />
-           </Button>
+         {handleFileChange && (
+            <Button
+               component="label"
+               variant="success"
+               sx={{
+                  padding: "10px",
+                  "& .MuiButton-startIcon": {
+                     margin: 0,
+                  },
+               }}
+            >
+               <PhotoCamera sx={{ fontSize: "20px", marginRight: "10px" }} /> Chọn ảnh hoặc video
+               <VisuallyHiddenInput type="file" accept="image/*" onChange={handleChangeImage} />
+            </Button>
          )}
       </>
    );

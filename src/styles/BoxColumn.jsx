@@ -1,8 +1,18 @@
 import { Box, styled } from "@mui/material";
 
-export const BoxColumn = styled(Box)({
+const BoxColumn = styled(Box)({
    display: "flex",
    flexDirection: "column",
-   alignItems: "center",
-   gap: "10px",
+   "&::-webkit-scrollbar": {
+      width: "8px",
+   },
+   "&::-webkit-scrollbar-thumb": {
+      background: "#bdbdbd",
+      borderRadius: "10px",
+   },
+   "&::-webkit-scrollbar-button": {
+      display: "none",
+   },
 });
+
+export default BoxColumn;

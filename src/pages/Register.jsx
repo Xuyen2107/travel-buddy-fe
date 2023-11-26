@@ -5,7 +5,7 @@ import { useFormik } from "formik";
 import { useState } from "react";
 import userValidation from "../validations/userValidation";
 import { authAPI } from "../services/api";
-import { TextFieldCustom } from "../styles/TextFieldCustom";
+import { TextFieldCustom } from "../styles/index";
 import { login } from "../redux/authSlice";
 import { useDispatch } from "react-redux";
 

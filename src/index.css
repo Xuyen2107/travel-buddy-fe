@@ -15,4 +15,28 @@ body {
 
 a {
    text-decoration: none;
+   color: auto;
+}
+
+input::-webkit-calendar-picker-indicator {
+   cursor: pointer;
+}
+
+button {
+   cursor: pointer;
+   border: none;
+   background: none;
+}
+
+::-webkit-scrollbar {
+   width: "8px";
+}
+
+::-webkit-scrollbar-thumb {
+   background: #bdbdbd;
+   border-radius: 10px;
+}
+
+::-webkit-scrollbar-button {
+   display: "none";
 }

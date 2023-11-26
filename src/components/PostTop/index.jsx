@@ -1,9 +1,10 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
-import { Box, Button, FormControl, Menu, MenuItem, Modal, Paper, Select, Typography } from "@mui/material";
+import { Avatar, Box, Button, CardHeader, FormControl, IconButton, Menu, MenuItem, Modal, Paper, Select, Typography } from "@mui/material";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import FlexBetween from "../BoxFlexBetween";
 import UserImage from "../UserImage";
+import { useSelector } from "react-redux";
 
 const PostTop = ({ avatarUrl, time, name, handleRemove, select = false, control = false, onChange, value }) => {
    const [anchorEl, setAnchorEl] = useState(null);
@@ -34,12 +35,12 @@ const PostTop = ({ avatarUrl, time, name, handleRemove, select = false, control 
 
    return (
       <FlexBetween width="100%">
-         <FlexBetween
-            sx={{
-               gap: "10px",
-            }}
-         >
-            <UserImage size="45px" avatarUrl={avatarUrl} />
+         <FlexBetween sx={{ gap: "10px" }}>
+            <CardHeader
+               sx={{ width: "100%" }}
+               avatar={<Avatar sx={{ width: "50px", height: "50px", border: "1px solid", cursor: "pointer" }} src={userLogin?.avatar} alt="avatar" />}
+               title={<Typography sx={{ fontSize: "20px", fontWeight: "500", cursor: "pointer" }}>{userLogin?.fullName}</Typography>}
+            />
             <Box>
                <Typography
                   variant="h6"

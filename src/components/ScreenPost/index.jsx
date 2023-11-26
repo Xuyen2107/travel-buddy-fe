@@ -5,7 +5,7 @@ import PostTop from "../PostTop";
 import PostContent from "../PostContent";
 import PostImage from "../PostImage";
 import PostBottom from "../PostButton";
-import { BoxColumn } from "../../styles/BoxColumn";
+import { BoxColumn } from "../../styles/index";
 
 const Post = () => {
    const [posts, setPosts] = useState();
@@ -33,25 +33,12 @@ const Post = () => {
       >
          {posts &&
             posts.map((item, idx) => (
-               <Box
-                  key={idx}
-                  width={500}
-                  boxShadow={4}
-                  sx={{
-                     display: "flex",
-                     flexDirection: "column",
-                     gap: "10px",
-                     bgcolor: "background.paper",
-                     p: "10px",
-                     borderRadius: "10px",
-                     height: "auto",
-                  }}
-               >
+               <BoxColumn key={idx} width={500} boxShadow={4}>
                   <PostTop avatarUrl={item?.author?.avatar} name={item?.author?.fullName} time="1 phút trước" />
                   <PostContent content={item?.content} index={idx} />
                   <PostImage images={item?.images} />
                   <PostBottom />
-               </Box>
+               </BoxColumn>
             ))}
       </Box>
    );

@@ -7,8 +7,7 @@ import userValidation from "../validations/userValidation";
 import { authAPI } from "../services/api";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { TextFieldCustom } from "../styles/TextFieldCustom";
-import { BoxColumn } from "../styles/BoxColumn";
+import { BoxColumn, TextFieldCustom } from "../styles/index";
 
 const Login = () => {
    const isNonMobileScreens = useMediaQuery("(min-width: 767px)");
@@ -30,8 +29,7 @@ const Login = () => {
             const accessToken = response.data;
             localStorage.setItem("accessToken", JSON.stringify(accessToken));
             const profileResponse = await authAPI.authInfo(accessToken);
-            const userInfo = profileResponse.data;
-            dispatch(login(userInfo));
+            dispatch(login(profileResponse.data));
             navigate("/");
             setLoading(false);
          } catch (error) {

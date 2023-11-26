@@ -1,4 +1,3 @@
-import { grey } from "@mui/material/colors";
 import { createTheme } from "@mui/material/styles";
 
 export const lightTheme = createTheme({
@@ -7,6 +6,7 @@ export const lightTheme = createTheme({
       background: {
          default: "#F0F2F5",
          paper: "#fff",
+         input: "#F0F2F5",
       },
    },
 });
@@ -17,6 +17,7 @@ export const darkTheme = createTheme({
       background: {
          default: "#18191A",
          paper: "#242526",
+         input: "#3A3B3C",
       },
    },
 });

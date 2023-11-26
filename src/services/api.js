@@ -19,24 +19,18 @@ export const authAPI = {
             "x-access-token": accessToken,
          },
       }),
-   uploadAvatar: (value) =>
-      axiosInstance.put("/user/upload-avatar", value, {
-         headers: {
-            "Content-Type": "multipart/form-data",
-         },
-      }),
 };
 
 export const userAPI = {
    getSingle: (userId) => axiosInstance.get(`/user/profile/${userId}`),
-   update: (userId, value) =>
-      axiosInstance.put(`/user/:${userId}`, value, {
+   update: (value) =>
+      axiosInstance.put("/user/update", value, {
          headers: {
             "Content-Type": "application/json",
          },
       }),
-   uploadAvatar: (userId, value) =>
-      axiosInstance.put(`/user/upload-avatar/${userId}`, value, {
+   uploadAvatar: (value) =>
+      axiosInstance.put("/user/upload-avatar/", value, {
          headers: {
             "Content-Type": "multipart/form-data",
          },

@@ -3,7 +3,7 @@ import * as Yup from "yup";
 const postValidation = (method) => {
    let validatePost;
 
-   const isPublicSchema = Yup.string().required("Vui lòng chọn trạng thái");
+   const isPublicSchema = Yup.number().required("Vui lòng chọn trạng thái");
    const vacationSchema = Yup.string().required("Vui lòng chọn kì nghỉ");
    const milestoneSchema = Yup.string().required("Vui lòng chọn cột mốc hành trình");
    const contentSchema = Yup.string().required("Vui lòng điền nội dung bài viết");

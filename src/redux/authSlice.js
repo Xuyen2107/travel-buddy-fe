@@ -5,66 +5,46 @@ const authSlice = createSlice({
 
    initialState: {
       loading: true,
-      token: localStorage.getItem("accessToken") === null ? null : JSON.parse(localStorage.getItem("accessToken")),
-      user: null,
-      profileUser: null,
-      upload: false,
+      isLogin: false,
+      userLogin: null,
+      isUploadingAvatar: false,
+      isUpdatingUser: false,
    },
-
    reducers: {
       login: (state, action) => {
-         state.user = action.payload;
          state.loading = false;
+         state.isLogin = true;
+         state.userLogin = action.payload;
       },
 
       logout: (state) => {
-         state.token = null;
-         state.user = null;
          state.loading = false;
-         state.profileUser = null;
-         localStorage.removeItem("accessToken");
-      },
-
-      setFriendUser: (state, action) => {
-         const user = action.payload;
-         if (state.user) {
-            state.user.friends = user.friends;
-         } else {
-            console.error("Không tìm thấy user");
-         }
-      },
-
-      setFriendProfileUser: (state, action) => {
-         const profileUser = action.payload;
-         if (state.profileUser) {
-            state.profileUser.friends = profileUser.friends;
-         } else {
-            console.error("Không tìm thấy user");
-         }
-      },
-
-      setAvatarUser: (state, action) => {
-         if (state.user) {
-            state.user.avatar = action.payload.avatar;
-         } else {
-            console.error("Không tìm thấy user");
-         }
+         state.isLogin = false;
+         state.userLogin = null;
       },
 
       updateUser: (state, action) => {
-         state.user = action.payload;
+         state.userLogin = action.payload;
       },
 
-      uploadStart: (state) => {
-         state.upload = true;
+      startUploadAvatar: (state) => {
+         state.isUploadingAvatar = true;
       },
 
-      uploadFinish: (state) => {
-         state.upload = false;
+      finishUploadAvatar: (state) => {
+         state.isUploadingAvatar = false;
+      },
+
+      startUpdateUser: (state) => {
+         state.isUpdatingUser = true;
+      },
+
+      finishUpdateUser: (state) => {
+         state.isUpdatingUser = false;
       },
    },
 });
 
-export const { login, logout, uploadStart, uploadFinish, setAvatarUser, setFriendProfileUser, setFriendUser, updateUser } = authSlice.actions;
+export const { login, logout, updateUser, startUploadAvatar, finishUploadAvatar, startUpdateUser, finishUpdateUser } = authSlice.actions;
 
 export default authSlice.reducer;

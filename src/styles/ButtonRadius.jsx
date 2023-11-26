@@ -1,10 +1,6 @@
 import { Button, styled } from "@mui/material";
 
-export const ButtonRadius = styled(Button)({
-   position: "absolute",
-   padding: "10px",
-   borderRadius: "50%",
-   backgroundColor: "",
+const ButtonRadius = styled(Button)({
    "& .MuiButton-startIcon": {
       margin: 0,
    },
@@ -12,3 +8,5 @@ export const ButtonRadius = styled(Button)({
       minWidth: 0,
    },
 });
+
+export default ButtonRadius;

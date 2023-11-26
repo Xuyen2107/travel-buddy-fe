@@ -1,16 +1,15 @@
 import * as React from "react";
 import { Box, Avatar, Menu, MenuItem, ListItemIcon, Divider, IconButton, Tooltip } from "@mui/material";
 import { Settings, Logout } from "@mui/icons-material";
-import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../../redux/authSlice";
+import { Link } from "react-router-dom";
+import AuthHook from "../../hooks/authHook";
+import { useSelector } from "react-redux";
 
 const AccountMenu = () => {
-   const user = useSelector((state) => state.auth.user);
-   const dispatch = useDispatch();
-   const navigate = useNavigate();
    const [anchorEl, setAnchorEl] = React.useState(null);
    const open = Boolean(anchorEl);
+   const { handelLogout } = AuthHook();
+   const { userLogin } = useSelector((state) => state.auth);
 
    const handleClick = (event) => {
       setAnchorEl(event.currentTarget);
@@ -18,13 +17,6 @@ const AccountMenu = () => {
 
    const handleClose = () => {
       setAnchorEl(null);
-   };
-
-   const handleLogout = () => {
-      dispatch(logout());
-      localStorage.removeItem("accessToken");
-      handleClose();
-      navigate("/");
    };
 
    return (
@@ -39,7 +31,7 @@ const AccountMenu = () => {
                   aria-haspopup="true"
                   aria-expanded={open ? "true" : undefined}
                >
-                  <Avatar src={user?.avatar} sx={{ width: 40, height: 40 }}></Avatar>
+                  <Avatar src={userLogin?.avatar} sx={{ width: 40, height: 40 }}></Avatar>
                </IconButton>
             </Tooltip>
          </Box>
@@ -66,8 +58,8 @@ const AccountMenu = () => {
             transformOrigin={{ horizontal: "right", vertical: "top" }}
             anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
          >
-            <MenuItem onClick={handleClose} component={Link} to={`/profile/${user._id}`}>
-               <Avatar src={user?.avatar} /> {user?.fullName}
+            <MenuItem onClick={handleClose} component={Link} to={`/profile/${userLogin?._id}`}>
+               <Avatar src={userLogin?.avatar} /> {userLogin?.fullName}
             </MenuItem>
             <Divider />
             <MenuItem onClick={handleClose}>
@@ -76,7 +68,12 @@ const AccountMenu = () => {
                </ListItemIcon>
                Cài đặt
             </MenuItem>
-            <MenuItem onClick={handleLogout}>
+            <MenuItem
+               onClick={() => {
+                  handelLogout();
+                  handleClose();
+               }}
+            >
                <ListItemIcon>
                   <Logout fontSize="small" />
                </ListItemIcon>
