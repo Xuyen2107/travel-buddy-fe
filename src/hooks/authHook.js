@@ -1,9 +1,9 @@
 import { useDispatch } from "react-redux";
-import { authAPI } from "../services/api";
 import { login, logout } from "../redux/authSlice";
 import { useNavigate } from "react-router-dom";
+import { authAPI } from "../apis";
 
-const AuthHook = () => {
+const useAuth = () => {
    const navigate = useNavigate();
    const dispatch = useDispatch();
    const token = localStorage.getItem("accessToken") === null || undefined ? null : JSON.parse(localStorage.getItem("accessToken"));
@@ -21,10 +21,14 @@ const AuthHook = () => {
    const handelLogout = () => {
       dispatch(logout());
       localStorage.removeItem("accessToken");
-      navigate("/");
+      // navigate("/");
    };
+
+   if (token === null) {
+      handelLogout();
+   }
 
    return { handelLogout, fetchDataUseLogin };
 };
 
-export default AuthHook;
+export default useAuth;

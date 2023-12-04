@@ -1,6 +1,6 @@
 import { axiosInstance } from "./axiosInstance";
 
-export const postAPI = {
+const postAPI = {
    create: (values) =>
       axiosInstance.post("/post/create", values, {
          headers: {
@@ -20,3 +20,5 @@ export const postAPI = {
    remove: (postId) => axiosInstance.delete(`/post/delete/${postId}`),
    like: (postId) => axiosInstance.put(`/post/${postId}/like`),
 };
+
+export default postAPI;

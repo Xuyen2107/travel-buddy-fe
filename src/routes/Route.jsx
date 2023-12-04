@@ -7,13 +7,12 @@ import Register from "../pages/Register.jsx";
 import ProfilePage from "../pages/ProfilePage.jsx";
 import PostDetail from "../pages/PostDetail.jsx";
 import VacationDetail from "../pages/VacationDetail.jsx";
-import AlbumDetails from "../pages/AlbumDetail.jsx";
 
 const Navigate = () => {
    const { isLogin } = useSelector((state) => state.auth);
    return (
       <>
-         {!isLogin ? (
+         {isLogin === false ? (
             <Routes>
                <Route path="/" element={<Login />} />
                <Route path="/login" element={<Login />} />
@@ -23,14 +22,11 @@ const Navigate = () => {
             <>
                <Routes>
                   <Route path="/" element={<HomePage />} />
-                  <Route path="/profile/:userId" element={<ProfilePage />}>
-                     <Route path="vacation" element={<VacationDetail />} />
-                     <Route path="album" element={<AlbumDetails />} />
-                  </Route>
+                  <Route path="/profile/:userId" element={<ProfilePage></ProfilePage>} />
+                  <Route path="/profile/:userId/vacation" element={<ProfilePage></ProfilePage>} />
+                  <Route path="/profile/:userId/album" element={<ProfilePage></ProfilePage>} />
                   <Route path="/vacation/:vacationId" element={<VacationDetail />} />
                   <Route path="/post/:postId" element={<PostDetail />} />
-                  <Route path="/profile/:userId" element={<ProfilePage />} />
-                  {/* <Route path="/profile/:userId/album" element={<AlbumDetails />} /> */}
                   <Route path="*" element={<NotFound />} />
                </Routes>
             </>

@@ -7,8 +7,18 @@ const postValidation = (method) => {
    const vacationSchema = Yup.string().required("Vui lòng chọn kì nghỉ");
    const milestoneSchema = Yup.string().required("Vui lòng chọn cột mốc hành trình");
    const contentSchema = Yup.string().required("Vui lòng điền nội dung bài viết");
-   const imageSchema = Yup.array().required("Vui lòng chọn ảnh");
+   const imageSchema = Yup.array().test("nonEmpty", "Vui lòng chọn ít nhất một ảnh", (value) => value && value.length > 0);
+
    if (method === "create") {
+      return (validatePost = Yup.object().shape({
+         isPublic: isPublicSchema,
+         vacation: vacationSchema,
+         milestone: milestoneSchema,
+         content: contentSchema,
+         images: imageSchema,
+      }));
+   }
+   if (method === "update") {
       return (validatePost = Yup.object().shape({
          isPublic: isPublicSchema,
          vacation: vacationSchema,
