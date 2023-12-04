@@ -1,45 +1,49 @@
 import { Box, Button, CircularProgress, Typography } from "@mui/material";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
-import useVacation from "../hooks/useVacation.js";
 import { ScreenVacation, OpenModal, CreateVacationForm } from "../components";
 import BoxColumn from "../styles/BoxColumn.jsx";
 import { useEffect, useState } from "react";
 import { PostAdd } from "@mui/icons-material";
 import HolidayVillageIcon from "@mui/icons-material/HolidayVillage";
-import CreatePost from "../components/CreatePost/index.jsx";
+import CreatePost from "../components/FormPost/index.jsx";
+import useFetchData from "../hooks/useFetchData.js";
+import { useDispatch, useSelector } from "react-redux";
+import vacationAPI from "../apis/vacationAPI.js";
+import { likeFinish } from "../redux/vacationSlice.js";
 
 const HomePage = () => {
-   const onReloadVacation = () => {
-      setReload(true);
-   };
-
-   const { allVacationData, dataLike, setDataAllVacation, allVacationLoading, allVacationError, handleLikeVacation, fetchDataAllVacation } =
-      useVacation();
-   const [vacation, setVacation] = useState(null);
-   const [openModal, setOpenModal] = useState(false);
-   const [confirmOpenModal, setConfirmOpenModal] = useState(false);
+   //================================================================
    const [type, setType] = useState("");
-   const handleOpen = () => {
-      setOpenModal(true);
-   };
+   const [openModal, setOpenModal] = useState(false);
+   const [vacationData, setVacationData] = useState(null);
+   const [milestoneId, setMilestoneId] = useState("");
+   const [confirmOpenModal, setConfirmOpenModal] = useState(false);
+   //================================================================
+   const dispatch = useDispatch();
+   const { vacation, handleLike } = useSelector((state) => state.vacation);
+   const {
+      data: allVacationData,
+      loading: allVacationLoading,
+      error: allVacationError,
+      setData: setDataAllVacation,
+      fetchData: fetchDataAllVacation,
+   } = useFetchData(vacationAPI.getAll);
+   //================================================================
+   useEffect(() => {
+      if (vacation && handleLike && allVacationData) {
+         setDataAllVacation((prevData) => prevData.map((item) => (item._id === vacation?._id ? vacation : item)));
+         dispatch(likeFinish());
+      }
+   }, [handleLike]);
+
+   const handleOpen = () => setOpenModal(true);
    const handleConfirmOpen = () => setConfirmOpenModal(true);
    const handleConfirmClose = () => setConfirmOpenModal(false);
    const handleCloseAllModal = () => {
       setConfirmOpenModal(false);
       setOpenModal(false);
    };
-   const [reload, setReload] = useState(null);
-
-   useEffect(() => {
-      fetchDataAllVacation();
-   }, [reload]);
-
-   useEffect(() => {
-      if (dataLike) {
-         setDataAllVacation((prevData) => prevData.map((item) => (item._id === dataLike?._id ? dataLike : item)));
-      }
-   }, [dataLike]);
 
    return (
       <Box>
@@ -68,7 +72,7 @@ const HomePage = () => {
                            onClick={() => {
                               handleOpen();
                               setType("createVacation");
-                              setVacation(null);
+                              setVacationData(null);
                            }}
                            color="secondary"
                            sx={{ alignItems: "center" }}
@@ -81,6 +85,8 @@ const HomePage = () => {
                            onClick={() => {
                               handleOpen();
                               setType("createPost");
+                              setVacationData(null);
+                              setMilestoneId("");
                            }}
                            color="secondary"
                            variant="outlined"
@@ -91,15 +97,16 @@ const HomePage = () => {
                      </Box>
                      {allVacationData?.map((item) => (
                         <ScreenVacation
-                           handleLikeVacation={() => handleLikeVacation(item?._id)}
-                           handleOpenModal={() => {
+                           handleUpdateVacation={() => {
                               handleOpen();
                               setType("updateVacation");
-                              setVacation(item);
+                              setVacationData(item);
                            }}
-                           handleCreatePost={() => {
+                           handleCreatePost={(item1) => {
                               handleOpen();
                               setType("createPost");
+                              setVacationData(item);
+                              setMilestoneId(item1);
                            }}
                            key={item?._id}
                            vacation={item}
@@ -113,7 +120,6 @@ const HomePage = () => {
          </Box>
          <OpenModal
             type={type}
-            dataVacation={vacation}
             openModal={openModal}
             confirmOpenModal={confirmOpenModal}
             handleConfirmClose={handleConfirmClose}
@@ -122,15 +128,15 @@ const HomePage = () => {
          >
             {type === "createVacation" || type === "updateVacation" ? (
                <CreateVacationForm
-                  onProcessDone={() => {
+                  onProcessDone={async () => {
                      handleCloseAllModal();
-                     onReloadVacation();
+                     await fetchDataAllVacation();
                   }}
                   type={type}
-                  vacation={vacation}
+                  vacation={vacationData}
                />
             ) : (
-               <CreatePost closeModal={handleCloseAllModal} type={type} />
+               <CreatePost type={type} vacation={vacationData} milestoneId={milestoneId} />
             )}
          </OpenModal>
       </Box>

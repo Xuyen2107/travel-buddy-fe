@@ -1,6 +1,6 @@
 import { axiosInstance } from "./axiosInstance";
 
-export const albumAPI = {
+const albumAPI = {
    create: (values) =>
       axiosInstance.post("/album/create", values, {
          headers: {
@@ -19,4 +19,4 @@ export const albumAPI = {
    remove: (albumId) => axiosInstance.delete(`/album/delete/${albumId}`),
 };
 
-const 
+export default albumAPI;

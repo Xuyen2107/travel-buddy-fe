@@ -9,68 +9,53 @@ import PreviewIcon from "@mui/icons-material/Preview";
 import { BoxColumn, BoxFlexBetween, ButtonRadius, TypographyWrap } from "../styles";
 import { ChatBubbleOutlineOutlined, FavoriteBorderOutlined, FavoriteOutlined } from "@mui/icons-material";
 import { useSelector } from "react-redux";
-import useVacation from "../hooks/useVacation";
-import { CreateVacationForm, OpenModal } from "../components";
-import CreatePost from "../components/CreatePost";
-import usePost from "../hooks/usePost";
-import Post from "../components/ScreenPost/index1";
+import { CommentForm, CreateVacationForm, OpenModal } from "../components";
+import CreatePost from "../components/FormPost";
+import Post from "../components/ScreenPost";
 import Navbar from "../components/Navbar";
+import { useCrudApi, useFetchData } from "../hooks";
+import { postAPI, vacationAPI } from "../apis";
 
 const VacationDetail = () => {
-   const { userLogin } = useSelector((state) => state.auth);
-   const { vacationId } = useParams();
-   const navigate = useNavigate();
-   const { dataVacation, dataLike, setVacation, fetchDataVacation, handleLikeVacation } = useVacation();
-   //================================================================
-   const [anchorEl, setAnchorEl] = useState(null);
-   const open = Boolean(anchorEl);
-   const handleClick = (event) => setAnchorEl(event.currentTarget);
-   const handleClose = () => setAnchorEl(null);
-   //=================================================================
    const [type, setType] = useState("");
-   const [milestone, setMilestone] = useState(null);
+   const [anchorEl, setAnchorEl] = useState(null);
+   const [milestone, setMilestone] = useState("");
    const [openModal, setOpenModal] = useState(false);
    const [confirmOpenModal, setConfirmOpenModal] = useState(false);
-   const handleOpen = () => {
-      setOpenModal(true);
-   };
+   //================================================================
+   const navigate = useNavigate();
+   const open = Boolean(anchorEl);
+   const { vacationId } = useParams();
+   const { userLogin } = useSelector((state) => state.auth);
+   const { data: dataVacation, setData: setDataVacation } = useFetchData(vacationAPI.getSingle, vacationId);
+   const { data: dataPostMilestone, fetchData: fetchDataPostMilestone } = useCrudApi(postAPI.getAllByMilestone);
+   const { data: dataVacationLike, fetchData: handleLike } = useCrudApi(vacationAPI.like);
+
+   //=================================================================
+   const handleClose = () => setAnchorEl(null);
+   const handleOpen = () => setOpenModal(true);
    const handleConfirmOpen = () => setConfirmOpenModal(true);
    const handleConfirmClose = () => setConfirmOpenModal(false);
+   const handleClick = (event) => setAnchorEl(event.currentTarget);
    const handleCloseAllModal = () => {
       setConfirmOpenModal(false);
       setOpenModal(false);
    };
    //=====================================================================
-   const { selectVacations, selectMilestones, handleSelectVacationChange, dataPostMilestone, fetchDataPostMilestone } = usePost("", dataVacation);
    const isLiked = dataVacation?.likes?.includes(userLogin?._id);
    const isUserLogin = userLogin?._id === dataVacation?.author?._id;
-   const [reload, setReload] = useState(null);
-
-   const onReloadVacation = () => {
-      setReload(true);
-   };
 
    useEffect(() => {
-      if (vacationId) {
-         fetchDataVacation(vacationId);
+      if (dataVacationLike) {
+         setDataVacation(dataVacationLike);
       }
-   }, [vacationId, reload]);
-
-   useEffect(() => {
-      if (dataLike) {
-         setVacation(dataLike);
-      }
-   }, [dataLike]);
+   }, [dataVacationLike]);
 
    useEffect(() => {
       if (milestone) {
-         fetchDataPostMilestone(milestone?._id);
+         fetchDataPostMilestone(milestone);
       }
    }, [milestone]);
-
-   useEffect(() => {
-      fetchDataPostMilestone(milestone?._id);
-   }, [reload]);
 
    return (
       <Box>
@@ -228,7 +213,7 @@ const VacationDetail = () => {
                      }}
                   >
                      <BoxFlexBetween gap="0.3rem">
-                        <IconButton onClick={() => handleLikeVacation(dataVacation?._id)}>
+                        <IconButton onClick={() => handleLike(dataVacation?._id)}>
                            {isLiked ? <FavoriteOutlined sx={{ color: "red" }} /> : <FavoriteBorderOutlined />}
                         </IconButton>
                         {dataVacation?.likes.length > 0 && <Typography>{dataVacation?.likes?.length}</Typography>}
@@ -243,6 +228,7 @@ const VacationDetail = () => {
                         <ShareIcon />
                      </IconButton>
                   </CardActions>
+                  <CommentForm typeSubmit="createComment" postId={vacationId} />
                </BoxColumn>
             </Box>
             {milestone && (
@@ -270,26 +256,22 @@ const VacationDetail = () => {
             handleConfirmClose={handleConfirmClose}
             handleCloseAllModal={handleCloseAllModal}
          >
-            {type === "createVacation" || type === "updateVacation" ? (
+            {type === "updateVacation" ? (
                <CreateVacationForm
                   type={type}
                   onProcessDone={() => {
                      handleCloseAllModal();
-                     onReloadVacation();
                   }}
                   vacation={dataVacation}
                />
             ) : (
                <CreatePost
-                  milestone={milestone?._id}
+                  type="createPost"
                   vacation={dataVacation}
-                  type={type}
-                  selectMilestones={selectMilestones}
-                  selectVacations={selectVacations}
-                  handleSelectVacationChange={handleSelectVacationChange}
-                  onProcessDone={() => {
+                  milestoneId={milestone._id}
+                  onProcessDone={async () => {
+                     await fetchDataPostMilestone(milestone);
                      handleCloseAllModal();
-                     onReloadVacation();
                   }}
                />
             )}
