@@ -2,13 +2,13 @@ import * as React from "react";
 import { Box, Avatar, Menu, MenuItem, ListItemIcon, Divider, IconButton, Tooltip } from "@mui/material";
 import { Settings, Logout } from "@mui/icons-material";
 import { Link } from "react-router-dom";
-import AuthHook from "../../hooks/authHook";
+import useAuth from "../../hooks/authHook";
 import { useSelector } from "react-redux";
 
 const AccountMenu = () => {
    const [anchorEl, setAnchorEl] = React.useState(null);
    const open = Boolean(anchorEl);
-   const { handelLogout } = AuthHook();
+   const { handelLogout } = useAuth();
    const { userLogin } = useSelector((state) => state.auth);
 
    const handleClick = (event) => {

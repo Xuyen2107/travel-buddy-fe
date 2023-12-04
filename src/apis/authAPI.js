@@ -1,6 +1,6 @@
 import { axiosInstance } from "./axiosInstance";
 
-export const authAPI = {
+const authAPI = {
    login: (values) => axiosInstance.post("/auth/login", values),
    register: (values) => axiosInstance.post("/auth/register", values),
    authInfo: (accessToken) =>
@@ -10,3 +10,5 @@ export const authAPI = {
          },
       }),
 };
+
+export default authAPI;
