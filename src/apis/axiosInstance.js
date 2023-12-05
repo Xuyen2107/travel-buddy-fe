@@ -1,5 +1,5 @@
 import axios from "axios";
-
+// import { io } from "socket.io-client";
 const accessToken = localStorage.getItem("accessToken") === "undefined" || null ? null : JSON.parse(localStorage.getItem("accessToken"));
 export const axiosInstance = axios.create({
    baseURL:
@@ -10,3 +10,5 @@ export const axiosInstance = axios.create({
       "x-access-token": accessToken,
    },
 });
+
+// export const socket = io("http://localhost:3001");
