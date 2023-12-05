@@ -8,6 +8,7 @@ import ProfilePage from "../pages/ProfilePage.jsx";
 import PostDetail from "../pages/PostDetail.jsx";
 import VacationDetail from "../pages/VacationDetail.jsx";
 import AlbumDetails from "../pages/AlbumDetail.jsx";
+import Message from "../components/chatComponents/Message.jsx";
 
 const Navigate = () => {
    const { isLogin } = useSelector((state) => state.auth);
@@ -18,11 +19,13 @@ const Navigate = () => {
                <Route path="/" element={<Login />} />
                <Route path="/login" element={<Login />} />
                <Route path="/register" element={<Register />} />
+
             </Routes>
          ) : (
             <>
                <Routes>
                   <Route path="/" element={<HomePage />} />
+                  <Route path="/message" element={<Message />} />
                   <Route path="/profile/:userId" element={<ProfilePage />}>
                      <Route path="vacation" element={<VacationDetail />} />
                      <Route path="album" element={<AlbumDetails />} />

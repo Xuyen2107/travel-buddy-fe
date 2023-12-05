@@ -19,4 +19,3 @@ export const albumAPI = {
    remove: (albumId) => axiosInstance.delete(`/album/delete/${albumId}`),
 };
 
-const 
