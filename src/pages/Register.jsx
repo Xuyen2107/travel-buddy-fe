@@ -1,20 +1,20 @@
-import { Link, useNavigate } from "react-router-dom";
-import { LoadingButton } from "@mui/lab";
-import { Box, Button, Typography, useMediaQuery } from "@mui/material";
-import { useFormik } from "formik";
 import { useState } from "react";
-import userValidation from "../validations/userValidation";
-import { authAPI } from "../services/api";
-import { TextFieldCustom } from "../styles/index";
-import { login } from "../redux/authSlice";
+import { useFormik } from "formik";
+import { LoadingButton } from "@mui/lab";
 import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { Box, Button, Typography, useMediaQuery } from "@mui/material";
+import { authAPI } from "../apis";
+import { login } from "../redux/authSlice";
+import { TextFieldCustom } from "../styles/index";
+import userValidation from "../validations/userValidation";
 
 const Register = () => {
-   const isNonMobileScreens = useMediaQuery("(min-width: 767px)");
-   const navigate = useNavigate();
-   const dispatch = useDispatch();
-   const [loading, setLoading] = useState(false);
    const [error, setError] = useState(null);
+   const [loading, setLoading] = useState(false);
+   const dispatch = useDispatch();
+   const navigate = useNavigate();
+   const isNonMobileScreens = useMediaQuery("(min-width: 767px)");
 
    const formik = useFormik({
       initialValues: {
@@ -67,7 +67,7 @@ const Register = () => {
                flexDirection: "column",
                alignItems: "center",
                gap: "18px",
-               width: isNonMobileScreens ? "600px" : "90%",
+               width: isNonMobileScreens ? "600px" : "96%",
                padding: "20px",
                borderLeft: "1px solid",
                borderTop: "1px solid",
@@ -132,7 +132,7 @@ const Register = () => {
                label="Nhập lại mật khẩu"
             />
 
-            {loading ? (
+            {loading === true ? (
                <LoadingButton loading variant="outlined">
                   Đăng kí
                </LoadingButton>

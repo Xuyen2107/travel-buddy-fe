@@ -1,145 +1,145 @@
-// import { Box, Button, CircularProgress, Typography } from "@mui/material";
-// import Navbar from "../components/Navbar";
-// import Sidebar from "../components/Sidebar";
-// import useVacation from "../hooks/useVacation.js";
-// import { ScreenVacation, OpenModal, CreateVacationForm } from "../components";
-// import BoxColumn from "../styles/BoxColumn.jsx";
-// import { useEffect, useState } from "react";
-// import { PostAdd } from "@mui/icons-material";
-// import HolidayVillageIcon from "@mui/icons-material/HolidayVillage";
-// import CreatePost from "../components/CreatePost/index.jsx";
-
-import Message from "../components/chatComponents/Message";
-import HomeChat from "../components/chatComponents/HomeChat/HomeChat.jsx";
-
+import { Box, Button, CircularProgress, Typography } from "@mui/material";
+import Navbar from "../components/Navbar";
+import Sidebar from "../components/Sidebar";
+import { ScreenVacation, OpenModal, CreateVacationForm } from "../components";
+import BoxColumn from "../styles/BoxColumn.jsx";
+import { useEffect, useState } from "react";
+import { PostAdd } from "@mui/icons-material";
+import HolidayVillageIcon from "@mui/icons-material/HolidayVillage";
+import CreatePost from "../components/FormPost/index.jsx";
+import useFetchData from "../hooks/useFetchData.js";
+import { useDispatch, useSelector } from "react-redux";
+import vacationAPI from "../apis/vacationAPI.js";
+import { likeFinish } from "../redux/vacationSlice.js";
 
 const HomePage = () => {
-   // const onReloadVacation = () => {
-   //    setReload(true);
-   // };
+   //================================================================
+   const [type, setType] = useState("");
+   const [openModal, setOpenModal] = useState(false);
+   const [vacationData, setVacationData] = useState(null);
+   const [milestoneId, setMilestoneId] = useState("");
+   const [confirmOpenModal, setConfirmOpenModal] = useState(false);
+   //================================================================
+   const dispatch = useDispatch();
+   const { vacation, handleLike } = useSelector((state) => state.vacation);
+   const {
+      data: allVacationData,
+      loading: allVacationLoading,
+      error: allVacationError,
+      setData: setDataAllVacation,
+      fetchData: fetchDataAllVacation,
+   } = useFetchData(vacationAPI.getAll);
+   //================================================================
+   useEffect(() => {
+      if (vacation && handleLike && allVacationData) {
+         setDataAllVacation((prevData) => prevData.map((item) => (item._id === vacation?._id ? vacation : item)));
+         dispatch(likeFinish());
+      }
+   }, [handleLike]);
 
-   // const { allVacationData, dataLike, setDataAllVacation, allVacationLoading, allVacationError, handleLikeVacation, fetchDataAllVacation } =
-   //    useVacation();
-   // const [vacation, setVacation] = useState(null);
-   // const [openModal, setOpenModal] = useState(false);
-   // const [confirmOpenModal, setConfirmOpenModal] = useState(false);
-   // const [type, setType] = useState("");
-   // const handleOpen = () => {
-   //    setOpenModal(true);
-   // };
-   // const handleConfirmOpen = () => setConfirmOpenModal(true);
-   // const handleConfirmClose = () => setConfirmOpenModal(false);
-   // const handleCloseAllModal = () => {
-   //    setConfirmOpenModal(false);
-   //    setOpenModal(false);
-   // };
-   // const [reload, setReload] = useState(null);
-
-   // useEffect(() => {
-   //    fetchDataAllVacation();
-   // }, [reload]);
-
-   // useEffect(() => {
-   //    if (dataLike) {
-   //       setDataAllVacation((prevData) => prevData.map((item) => (item._id === dataLike?._id ? dataLike : item)));
-   //    }
-   // }, [dataLike]);
+   const handleOpen = () => setOpenModal(true);
+   const handleConfirmOpen = () => setConfirmOpenModal(true);
+   const handleConfirmClose = () => setConfirmOpenModal(false);
+   const handleCloseAllModal = () => {
+      setConfirmOpenModal(false);
+      setOpenModal(false);
+   };
 
    return (
-      // <Box>
-      //    <Navbar />
-      //    <Box sx={{ display: "flex" }}>
-      //       <Sidebar />
-      //       {allVacationLoading ? (
-      //          <Box
-      //             sx={{
-      //                width: "100%",
-      //                height: "100%",
-      //                display: "flex",
-      //                justifyContent: "center",
-      //                alignItems: "center",
-      //             }}
-      //          >
-      //             <CircularProgress />
-      //          </Box>
-      //       ) : allVacationError ? (
-      //          <Typography variant="h6">Có lỗi xả ra</Typography>
-      //       ) : (
-      //          <Box>
-      //             <BoxColumn sx={{ gap: "20px", mt: "20px" }}>
-      //                <Box sx={{ display: "flex", justifyContent: "center", gap: "20px" }}>
-      //                   <Button
-      //                      onClick={() => {
-      //                         handleOpen();
-      //                         setType("createVacation");
-      //                         setVacation(null);
-      //                      }}
-      //                      color="secondary"
-      //                      sx={{ alignItems: "center" }}
-      //                      variant="outlined"
-      //                      endIcon={<HolidayVillageIcon />}
-      //                   >
-      //                      Tạo kì nghỉ
-      //                   </Button>
-      //                   <Button
-      //                      onClick={() => {
-      //                         handleOpen();
-      //                         setType("createPost");
-      //                      }}
-      //                      color="secondary"
-      //                      variant="outlined"
-      //                      endIcon={<PostAdd />}
-      //                   >
-      //                      Tạo bài viết
-      //                   </Button>
-      //                </Box>
-      //                {allVacationData?.map((item) => (
-      //                   <ScreenVacation
-      //                      handleLikeVacation={() => handleLikeVacation(item?._id)}
-      //                      handleOpenModal={() => {
-      //                         handleOpen();
-      //                         setType("updateVacation");
-      //                         setVacation(item);
-      //                      }}
-      //                      handleCreatePost={() => {
-      //                         handleOpen();
-      //                         setType("createPost");
-      //                      }}
-      //                      key={item?._id}
-      //                      vacation={item}
-      //                   />
-      //                ))}
-      //             </BoxColumn>
-      //          </Box>
-      //       )}
+      <Box>
+         <Navbar />
+         <Box sx={{ display: "flex" }}>
+            <Sidebar />
+            {allVacationLoading ? (
+               <Box
+                  sx={{
+                     width: "100%",
+                     height: "100%",
+                     display: "flex",
+                     justifyContent: "center",
+                     alignItems: "center",
+                  }}
+               >
+                  <CircularProgress />
+               </Box>
+            ) : allVacationError ? (
+               <Typography variant="h6">Có lỗi xả ra</Typography>
+            ) : (
+               <Box>
+                  <BoxColumn sx={{ gap: "20px", mt: "20px" }}>
+                     <Box sx={{ display: "flex", justifyContent: "center", gap: "20px" }}>
+                        <Button
+                           onClick={() => {
+                              handleOpen();
+                              setType("createVacation");
+                              setVacationData(null);
+                           }}
+                           color="secondary"
+                           sx={{ alignItems: "center" }}
+                           variant="outlined"
+                           endIcon={<HolidayVillageIcon />}
+                        >
+                           Tạo kì nghỉ
+                        </Button>
+                        <Button
+                           onClick={() => {
+                              handleOpen();
+                              setType("createPost");
+                              setVacationData(null);
+                              setMilestoneId("");
+                           }}
+                           color="secondary"
+                           variant="outlined"
+                           endIcon={<PostAdd />}
+                        >
+                           Tạo bài viết
+                        </Button>
+                     </Box>
+                     {allVacationData?.map((item) => (
+                        <ScreenVacation
+                           handleUpdateVacation={() => {
+                              handleOpen();
+                              setType("updateVacation");
+                              setVacationData(item);
+                           }}
+                           handleCreatePost={(item1) => {
+                              handleOpen();
+                              setType("createPost");
+                              setVacationData(item);
+                              setMilestoneId(item1);
+                           }}
+                           key={item?._id}
+                           vacation={item}
+                        />
+                     ))}
+                  </BoxColumn>
+               </Box>
+            )}
 
-      //       <Box flex={1}></Box>
-      //    </Box>
-      //    <OpenModal
-      //       type={type}
-      //       dataVacation={vacation}
-      //       openModal={openModal}
-      //       confirmOpenModal={confirmOpenModal}
-      //       handleConfirmClose={handleConfirmClose}
-      //       handleConfirmOpen={handleConfirmOpen}
-      //       handleCloseAllModal={handleCloseAllModal}
-      //    >
-      //       {type === "createVacation" || type === "updateVacation" ? (
-      //          <CreateVacationForm
-      //             onProcessDone={() => {
-      //                handleCloseAllModal();
-      //                onReloadVacation();
-      //             }}
-      //             type={type}
-      //             vacation={vacation}
-      //          />
-      //       ) : (
-      //          <CreatePost closeModal={handleCloseAllModal} type={type} />
-      //       )}
-      //    </OpenModal>
-      // </Box>
-         <HomeChat />
-         // <Message />
+            <Box flex={1}></Box>
+         </Box>
+         <OpenModal
+            type={type}
+            openModal={openModal}
+            confirmOpenModal={confirmOpenModal}
+            handleConfirmClose={handleConfirmClose}
+            handleConfirmOpen={handleConfirmOpen}
+            handleCloseAllModal={handleCloseAllModal}
+         >
+            {type === "createVacation" || type === "updateVacation" ? (
+               <CreateVacationForm
+                  onProcessDone={async () => {
+                     handleCloseAllModal();
+                     await fetchDataAllVacation();
+                  }}
+                  type={type}
+                  vacation={vacationData}
+               />
+            ) : (
+               <CreatePost type={type} vacation={vacationData} milestoneId={milestoneId} />
+            )}
+         </OpenModal>
+      </Box>
    );
 };
 

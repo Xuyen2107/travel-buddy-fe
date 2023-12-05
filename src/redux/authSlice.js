@@ -7,9 +7,8 @@ const authSlice = createSlice({
       loading: true,
       isLogin: false,
       userLogin: null,
-      isUploadingAvatar: false,
-      isUpdatingUser: false,
    },
+
    reducers: {
       login: (state, action) => {
          state.loading = false;
@@ -24,27 +23,15 @@ const authSlice = createSlice({
       },
 
       updateUser: (state, action) => {
-         state.userLogin = action.payload;
+         state.userLogin = { ...state.userLogin, ...action.payload };
       },
 
-      startUploadAvatar: (state) => {
-         state.isUploadingAvatar = true;
-      },
-
-      finishUploadAvatar: (state) => {
-         state.isUploadingAvatar = false;
-      },
-
-      startUpdateUser: (state) => {
-         state.isUpdatingUser = true;
-      },
-
-      finishUpdateUser: (state) => {
-         state.isUpdatingUser = false;
+      uploadAvatar: (state, action) => {
+         state.userLogin = { ...state.userLogin, ...action.payload };
       },
    },
 });
 
-export const { login, logout, updateUser, startUploadAvatar, finishUploadAvatar, startUpdateUser, finishUpdateUser } = authSlice.actions;
+export const { login, logout, updateUser, uploadAvatar } = authSlice.actions;
 
 export default authSlice.reducer;
