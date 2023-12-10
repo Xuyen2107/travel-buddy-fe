@@ -6,6 +6,8 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import Navigate from "./routes/Route";
 import { darkTheme, lightTheme } from "./theme";
 import ScreenComment from "./components/ScreenComment";
+import SearchForm from "./components/SearchForm";
+import Item from "./pages/item";
 
 const App = () => {
    const { loading } = useSelector((state) => state.auth);
@@ -25,7 +27,7 @@ const App = () => {
             <ThemeProvider theme={theme}>
                <CssBaseline />
                <Navigate />
-               {/* <ScreenComment /> */}
+               {/* <Item /> */}
             </ThemeProvider>
          )}
       </>

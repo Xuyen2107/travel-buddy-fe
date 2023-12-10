@@ -25,10 +25,6 @@ const CommentForm = ({ inputRef, typeSubmit, commentContent, postId, commentId, 
       error: errorUpdateReply,
       fetchData: fetchDataUpdateReply,
    } = useCrudApi(replyCommentAPI.updateComment);
-   // handleButtonClick = () => {
-   //    inputRef.current.focus();
-   //    inputRef.current.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" });
-   // };
 
    const formik = useFormik({
       initialValues: {
@@ -38,7 +34,7 @@ const CommentForm = ({ inputRef, typeSubmit, commentContent, postId, commentId, 
       onSubmit: async (values) => {
          if (typeSubmit === "createComment") {
             await fetchDataCreate(postId, values);
-            // await onProcessDone();
+            await onProcessDone();
          }
 
          if (typeSubmit === "updateComment") {
@@ -106,11 +102,11 @@ const CommentForm = ({ inputRef, typeSubmit, commentContent, postId, commentId, 
                         <SendIcon />
                      </LoadingButton>
                   ) : values.commentContent.length > 0 ? (
-                     <IconButton disableRipple type="submit" sx={{ color: "#0062D2" }}>
+                     <IconButton disableRipple type="submit" sx={{ color: "#0062D2", p: 0 }}>
                         <SendIcon />
                      </IconButton>
                   ) : (
-                     <IconButton disabled>
+                     <IconButton disabled sx={{ p: 0 }}>
                         <SendIcon />
                      </IconButton>
                   )}

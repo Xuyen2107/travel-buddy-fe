@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const useFetchData = (apiFunc, params) => {
+const useFetchData = (apiFunc, ...params) => {
    const [data, setData] = useState(null);
    const [loading, setLoading] = useState(true);
    const [error, setError] = useState(null);
@@ -10,7 +10,7 @@ const useFetchData = (apiFunc, params) => {
    }, []);
 
    const fetchData = async () => {
-      const newApiFunc = params ? apiFunc(params) : apiFunc();
+      const newApiFunc = params ? apiFunc(...params) : apiFunc();
       try {
          const response = await newApiFunc;
          setData(response.data);

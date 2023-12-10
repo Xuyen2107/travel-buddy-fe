@@ -5,3 +5,4 @@ export { default as TextFieldCustom } from "./TextFieldCustom";
 export { default as VisuallyHiddenInput } from "./VisuallyHiddenInput";
 export { default as ButtonRadius } from "./ButtonRadius";
 export { default as TypographyWrap } from "./TypographyWrap";
+export { default as ButtonText } from "./ButtonText";

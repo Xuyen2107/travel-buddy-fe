@@ -26,19 +26,22 @@ const ProfileTop = ({ userProfile }) => {
       setConfirmOpen(false);
    };
    const { userLogin } = useSelector((state) => state.auth);
-   const isNonMobileScreens = useMediaQuery("(min-width: 767px)");
+   const isNonMobileScreens = useMediaQuery("(min-width: 900px)");
    const { data: dataFriend, fetchData: fetchDataFriend } = useCrudApi(userAPI.getSingleFriend);
    const { data: dataSend, loading: loadingSend, fetchData: fetchDataSend } = useCrudApi(userAPI.sendFriend);
    const { data: dataAccept, loading: loadingAccept, fetchData: fetchDataAccept } = useCrudApi(userAPI.acceptFriend);
    const { data: dataRemove, loading: loadingRemove, fetchData: fetchDataRemove } = useCrudApi(userAPI.removeFriend);
    const isLoggedInUser = userProfile?._id === userLogin?._id;
    const sender = userLogin?._id === dataFriend?.sender;
+   console.log(userLogin._id);
+   console.log(userProfile._id);
 
    useEffect(() => {
       if (userProfile._id !== userLogin._id) {
          fetchDataFriend(userProfile._id);
+         console.log(1);
       }
-   }, [userProfile, userLogin]);
+   }, [userLogin._id, userProfile._id]);
 
    useEffect(() => {
       if (dataSend || dataAccept || dataRemove) {
