@@ -1,9 +1,7 @@
 import axios from "axios";
 
 export const axiosInstance = axios.create({
-   baseURL:
-      // "https://travel-buddy-be.onrender.com/api/v1" ||
-      "http://localhost:3001/api/v1",
+   baseURL: "http://localhost:3001/api/v1" || "https://travel-buddy-be.onrender.com/api/v1",
    timeout: 30000,
 });
 
