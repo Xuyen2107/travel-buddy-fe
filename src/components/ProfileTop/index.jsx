@@ -15,7 +15,7 @@ import OpenModal from "../OpenModal";
 import EditProfileForm from "../EditProfile/index";
 import EditIcon from "@mui/icons-material/Edit";
 
-const ProfileTop = ({ userProfile }) => {
+const ProfileTop = ({ userProfile, handleChat }) => {
    const [openModal, setOpenModal] = useState(false);
    const [confirmOpen, setConfirmOpen] = useState(false);
    const handleOpen = () => setOpenModal(true);
@@ -154,7 +154,7 @@ const ProfileTop = ({ userProfile }) => {
                                              Hủy kết bạn
                                           </Button>
                                        )}
-                                       <Button variant="outlined" endIcon={<SendIcon />} sx={{ textTransform: "inherit" }}>
+                                       <Button variant="outlined" endIcon={<SendIcon />} sx={{ textTransform: "inherit" }} onClick={handleChat}>
                                           Gửi tin nhắn
                                        </Button>
                                     </>
