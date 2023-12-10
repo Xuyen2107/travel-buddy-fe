@@ -1,13 +1,11 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { AppBar, Box, Toolbar, IconButton, Typography, Badge, Drawer } from "@mui/material";
-import { ArrowBack, ChatBubble, Group, Home, Menu, Notifications, Search } from "@mui/icons-material";
+import { ArrowBack, ChatBubble, Group, Home, Menu, Search } from "@mui/icons-material";
 import Sidebar from "../Sidebar";
 import SearchForm from "../SearchForm";
 import AccountMenu from "../AccountMenu";
 import { BoxFlexBetween } from "../../styles";
-import { useCrudApi } from "../../hooks";
-import { notifyAPI } from "../../apis";
 import Notify from "../Notify";
 
 const Navbar = () => {
@@ -104,8 +102,8 @@ const Navbar = () => {
                   </Box>
                </BoxFlexBetween>
                <BoxFlexBetween gap="30px">
-                  <IconButton disableRipple sx={{ p: 0, "&:hover": { bgcolor: "none" } }}>
-                     <Badge badgeContent={4} color="error">
+                  <IconButton component={Link} to="/message" disableRipple sx={{ p: 0, "&:hover": { bgcolor: "none" } }}>
+                     <Badge color="error">
                         <ChatBubble />
                      </Badge>
                   </IconButton>

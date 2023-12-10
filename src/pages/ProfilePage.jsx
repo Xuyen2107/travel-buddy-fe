@@ -24,12 +24,10 @@ const ProfilePage = ({ children }) => {
    const { data, loading, fetchData } = useCrudApi(vacationAPI.getAllByUser);
    //================================================================
 
-   const {data: dataCreate, loading: loadingCreate, fetchData: fetchDataCreate} = useCrudApi(chatAPI.createChat);
-   
-   const {data: dataChatSingle, loading: loadingChatSingle, fetchData: fetchDataChatSingle } = useCrudApi(chatAPI.findByChat);
-   
-   
-   
+   const { data: dataCreate, loading: loadingCreate, fetchData: fetchDataCreate } = useCrudApi(chatAPI.createChat);
+
+   const { data: dataChatSingle, loading: loadingChatSingle, fetchData: fetchDataChatSingle } = useCrudApi(chatAPI.findByChat);
+
    useEffect(() => {
       if (userId === userLogin._id) {
          setDataProfile(userLogin);
@@ -39,15 +37,14 @@ const ProfilePage = ({ children }) => {
 
       if (userId) {
          fetchDataFriends(userId);
-      fetchDataCreate(userId);
-      fetchDataChatSingle(userId);
+         fetchDataCreate(userId);
+         fetchDataChatSingle(userId);
          fetchData(userId);
       }
    }, [userId, userLogin]);
 
    //================================================================
-   
-   
+
    if (loadingFriends || loadingProfile) {
       return (
          <>

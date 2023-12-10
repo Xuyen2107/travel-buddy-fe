@@ -20,7 +20,6 @@ const Main = () => {
    const { data: dataCreate, loading: loadingCreate, fetchData: fetchDataCreate } = useCrudApi(messageAPI.createMessage);
    const { data, loading, fetchData } = useCrudApi(messageAPI.getAllMessages);
    const { data: dataSingle, loading: loadingSingle, fetchData: fetchDataSingle } = useCrudApi(chatAPI.findChat);
-   console.log("🚀 ~ file: index.jsx:23 ~ Main ~ dataSingle:", dataSingle)
    
 
    const messagesEndRef = useRef(null);

@@ -1,7 +1,6 @@
 import { Notifications } from "@mui/icons-material";
 import { Avatar, Badge, Box, IconButton, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
 import { useEffect, useState } from "react";
 import { useCrudApi } from "../../hooks";
 import { notifyAPI } from "../../apis";
@@ -35,7 +34,7 @@ const Notify = () => {
             disableRipple
             sx={{ p: 0, "&:hover": { bgcolor: "none" } }}
          >
-            <Badge badgeContent={17} color="error">
+            <Badge color="error">
                <Notifications color="text.primary" />
             </Badge>
          </IconButton>

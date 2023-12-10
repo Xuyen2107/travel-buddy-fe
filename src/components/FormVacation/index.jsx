@@ -86,7 +86,6 @@ const CreateVacationForm = ({ vacation, type, onProcessDone }) => {
       setImage(file);
       setFieldValue("avatarVacation", filePath);
    };
-   console.log(123, values.avatarVacation);
 
 
    return (

@@ -33,13 +33,10 @@ const ProfileTop = ({ userProfile, handleChat }) => {
    const { data: dataRemove, loading: loadingRemove, fetchData: fetchDataRemove } = useCrudApi(userAPI.removeFriend);
    const isLoggedInUser = userProfile?._id === userLogin?._id;
    const sender = userLogin?._id === dataFriend?.sender;
-   console.log(userLogin._id);
-   console.log(userProfile._id);
 
    useEffect(() => {
       if (userProfile._id !== userLogin._id) {
          fetchDataFriend(userProfile._id);
-         console.log(1);
       }
    }, [userLogin._id, userProfile._id]);
 

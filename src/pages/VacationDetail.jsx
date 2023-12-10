@@ -52,7 +52,6 @@ const VacationDetail = () => {
    //=====================================================================
    const isLiked = dataVacation?.likes?.includes(userLogin?._id);
    const isUserLogin = userLogin?._id === dataVacation?.author?._id;
-
    useEffect(() => {
       fetchDataComment(vacationId, page, 10);
    }, []);
@@ -85,7 +84,7 @@ const VacationDetail = () => {
 
    useEffect(() => {
       if (milestone) {
-         fetchDataPostMilestone(milestone);
+         fetchDataPostMilestone(milestone._id);
       }
    }, [milestone]);
 
@@ -254,7 +253,7 @@ const VacationDetail = () => {
                         <IconButton>
                            <ChatBubbleOutlineOutlined />
                         </IconButton>
-                        {/* {commentNumber > 0 && <Typography>{commentNumber}</Typography>} */}
+                        {dataComment?.totalDocs > 0 && <Typography>{dataComment.totalDocs}</Typography>}
                      </BoxFlexBetween>
                      <IconButton aria-label="share">
                         <ShareIcon />
@@ -290,7 +289,7 @@ const VacationDetail = () => {
                         {": "}
                         {milestone?.description}
                      </Typography>
-                     {dataPostMilestone ? (
+                     {dataPostMilestone && dataPostMilestone.length > 0 ? (
                         dataPostMilestone.map((item, idx) => <Post key={idx} post={item} />)
                      ) : (
                         <Typography>Chưa có bài viết nào</Typography>

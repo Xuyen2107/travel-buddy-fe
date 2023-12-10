@@ -15,7 +15,6 @@ const AlbumDetails = ({ albumId }) => {
       try {
          // Sử dụng Axios để gọi API
          const response = await albumAPI.getAllByUser();
-         console.log("🚀 ~ file: AlbumDetail.jsx:17 ~ fetchData ~ response:", response.data.docs);
 
          // Lấy dữ liệu từ response và cập nhật state
          setAlbums(response.data.docs);

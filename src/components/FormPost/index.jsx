@@ -67,7 +67,6 @@ const CreatePost = ({ post, vacation, milestoneId, type, onProcessDone }) => {
    });
 
    const { values, errors, touched, setFieldValue, handleChange, handleSubmit } = formik;
-   console.log(values);
    //================================================================
    useEffect(() => {
       if (allVacationHaveUser) {
@@ -80,7 +79,6 @@ const CreatePost = ({ post, vacation, milestoneId, type, onProcessDone }) => {
       if (vacation && values.vacation) {
          const newMilestones = vacation.milestones.map((item) => ({ id: item._id, label: item.time + ": " + item.description }));
          setSelectMilestones(newMilestones);
-         console.log("s");
       }
    }, [vacation]);
 
@@ -118,7 +116,6 @@ const CreatePost = ({ post, vacation, milestoneId, type, onProcessDone }) => {
       }
    };
    //=================================================================
-   console.log(milestoneIndex);
 
    if (loading) {
       return <CircularProgress />;

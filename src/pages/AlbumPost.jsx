@@ -17,7 +17,6 @@ const AlbumPost = () => {
       try {
          // Sử dụng Axios để gọi API
          const response = await albumAPI.getAll();
-         
 
          // Lấy dữ liệu từ response và cập nhật state
          setData(response.data.docs);
@@ -38,7 +37,6 @@ const AlbumPost = () => {
    const handleUpdate = async (albumId) => {
       try {
          const response = await albumAPI.update(albumId);
-         console.log("Update response:", response);
          fetchData();
       } catch (error) {
          console.error("Error updating album:", error);

@@ -12,14 +12,18 @@ const ListFriend = ({ friends }) => {
             </Typography>
          </ListItem>
          <Divider />
-         {friends?.map((item, idx) => (
-            <ListItemButton key={idx} sx={{ cursor: "pointer" }} onClick={() => navigate(`/profile/${item.friend._id}`)}>
-               <ListItemAvatar>
-                  <Avatar src={item.friend.avatar} alt="avatar" />
-               </ListItemAvatar>
-               <ListItemText primary={item.friend.fullName} />
-            </ListItemButton>
-         ))}
+         {friends && friends.length > 0 ? (
+            friends?.map((item, idx) => (
+               <ListItemButton key={idx} sx={{ cursor: "pointer" }} onClick={() => navigate(`/profile/${item.friend._id}`)}>
+                  <ListItemAvatar>
+                     <Avatar src={item.friend.avatar} alt="avatar" />
+                  </ListItemAvatar>
+                  <ListItemText primary={item.friend.fullName} />
+               </ListItemButton>
+            ))
+         ) : (
+            <Typography sx={{ p: "4px" }}>Không có bạn bè</Typography>
+         )}
       </List>
    );
 };
