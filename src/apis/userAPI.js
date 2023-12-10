@@ -1,6 +1,6 @@
 import { axiosInstance } from "./axiosInstance";
 
-export const userAPI = {
+const userAPI = {
    getSingle: (userId) => axiosInstance.get(`/user/profile/${userId}`),
    update: (value) =>
       axiosInstance.put("/user/update", value, {
@@ -20,4 +20,7 @@ export const userAPI = {
    sendFriend: (userId) => axiosInstance.post(`/user/send-friend/${userId}`),
    acceptFriend: (userId) => axiosInstance.put(`/user/accept-friend/${userId}`),
    removeFriend: (userId) => axiosInstance.put(`/user/remove-friend/${userId}`),
+   searchUser: (value) => axiosInstance.get(`/user/search-user?keywordUser=${value}`),
 };
+
+export default userAPI;

@@ -1,20 +1,20 @@
-import { LoadingButton } from "@mui/lab";
-import { Box, Button, Typography, useMediaQuery } from "@mui/material";
+import { useState } from "react";
 import { useFormik } from "formik";
+import { LoadingButton } from "@mui/lab";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { Box, Button, Typography, useMediaQuery } from "@mui/material";
+import { authAPI } from "../apis";
 import { login } from "../redux/authSlice";
 import userValidation from "../validations/userValidation";
-import { authAPI } from "../services/api";
-import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
 import { BoxColumn, TextFieldCustom } from "../styles/index";
 
 const Login = () => {
-   const isNonMobileScreens = useMediaQuery("(min-width: 767px)");
-   const [loading, setLoading] = useState(false);
    const [error, setError] = useState("");
+   const [loading, setLoading] = useState(false);
    const navigate = useNavigate();
    const dispatch = useDispatch();
+   const isNonMobileScreens = useMediaQuery("(min-width: 767px)");
 
    const formik = useFormik({
       initialValues: {
@@ -28,7 +28,7 @@ const Login = () => {
             const response = await authAPI.login(values);
             const accessToken = response.data;
             localStorage.setItem("accessToken", JSON.stringify(accessToken));
-            const profileResponse = await authAPI.authInfo(accessToken);
+            const profileResponse = await authAPI.authInfo();
             dispatch(login(profileResponse.data));
             navigate("/");
             setLoading(false);
@@ -59,8 +59,9 @@ const Login = () => {
             component="form"
             onSubmit={handleSubmit}
             sx={{
+               alignItems: "center",
                gap: "18px",
-               width: isNonMobileScreens ? "600px" : "90%",
+               width: isNonMobileScreens ? "600px" : "96%",
                padding: "20px",
                borderLeft: "1px solid",
                borderTop: "1px solid",
@@ -90,8 +91,8 @@ const Login = () => {
                label="Mật khẩu"
             />
 
-            {loading ? (
-               <LoadingButton loading variant="outlined">
+            {loading === true ? (
+               <LoadingButton loading variant="contained">
                   Đăng nhập
                </LoadingButton>
             ) : (
@@ -101,14 +102,7 @@ const Login = () => {
             )}
 
             {error && (
-               <Typography
-                  component="p"
-                  sx={{
-                     fontSize: "1rem",
-                     color: "red",
-                     m: "0 14px",
-                  }}
-               >
+               <Typography component="p" sx={{ fontSize: "1rem", color: "red", m: "0 14px" }}>
                   {error}
                </Typography>
             )}
@@ -122,12 +116,12 @@ const Login = () => {
                   alignItems: "center",
                }}
             >
-               <Typography sx={{ color: "blue" }} component={Link} to="/forgot-password">
+               <Button variant="text" sx={{ color: "blue", textTransform: "none" }} onClick={() => navigate("/forgot-password")}>
                   Quên mật khẩu?
-               </Typography>
-               <Typography sx={{ color: "blue" }} component={Link} to="/register">
+               </Button>
+               <Button variant="text" sx={{ color: "blue", textTransform: "none" }} onClick={() => navigate("/register")}>
                   Đăng kí tài khoản?
-               </Typography>
+               </Button>
             </Box>
          </BoxColumn>
       </Box>
