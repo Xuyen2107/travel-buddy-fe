@@ -21,11 +21,12 @@ const useAuth = () => {
    const handelLogout = () => {
       dispatch(logout());
       localStorage.removeItem("accessToken");
-      // navigate("/");
+      navigate("/");
    };
 
    if (token === null) {
-      handelLogout();
+      dispatch(logout());
+      localStorage.removeItem("accessToken");
    }
 
    return { handelLogout, fetchDataUseLogin };

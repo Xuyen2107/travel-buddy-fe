@@ -1,9 +1,9 @@
 import * as React from "react";
-import { Box, Avatar, Menu, MenuItem, ListItemIcon, Divider, IconButton, Tooltip } from "@mui/material";
-import { Settings, Logout } from "@mui/icons-material";
 import { Link } from "react-router-dom";
-import useAuth from "../../hooks/authHook";
 import { useSelector } from "react-redux";
+import { Settings, Logout } from "@mui/icons-material";
+import { Box, Avatar, Menu, MenuItem, ListItemIcon, Divider, IconButton, Tooltip } from "@mui/material";
+import useAuth from "../../hooks/authHook";
 
 const AccountMenu = () => {
    const [anchorEl, setAnchorEl] = React.useState(null);
@@ -26,12 +26,11 @@ const AccountMenu = () => {
                <IconButton
                   onClick={handleClick}
                   size="small"
-                  sx={{ ml: 2 }}
                   aria-controls={open ? "account-menu" : undefined}
                   aria-haspopup="true"
                   aria-expanded={open ? "true" : undefined}
                >
-                  <Avatar src={userLogin?.avatar} sx={{ width: 40, height: 40 }}></Avatar>
+                  <Avatar src={userLogin?.avatar} sx={{ width: 36, height: 36 }}></Avatar>
                </IconButton>
             </Tooltip>
          </Box>
@@ -47,12 +46,7 @@ const AccountMenu = () => {
                   cursor: "pointer",
                   overflow: "visible",
                   filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-                  "& .MuiAvatar-root": {
-                     width: 32,
-                     height: 32,
-                     ml: -0.5,
-                     mr: 1,
-                  },
+                  "& .MuiAvatar-root": { width: 32, height: 32, ml: -0.5, mr: 1 },
                },
             }}
             transformOrigin={{ horizontal: "right", vertical: "top" }}

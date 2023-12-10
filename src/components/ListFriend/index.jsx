@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 const ListFriend = ({ friends }) => {
    const navigate = useNavigate();
    return (
-      <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper", borderRadius: "10px", boxShadow: 4 }}>
+      <List sx={{ width: "100%", bgcolor: "background.paper", borderRadius: "10px", boxShadow: 4 }}>
          <ListItem>
             <Typography variant="h6" fontWeight="bold">
                Bạn bè

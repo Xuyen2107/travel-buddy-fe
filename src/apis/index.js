@@ -5,3 +5,6 @@ export { default as userAPI } from "./userAPI";
 export { default as vacationAPI } from "./vacationAPI";
 export { default as commentAPI } from "./commentAPI";
 export { default as replyCommentAPI } from "./replyCommentAPI";
+export { default as chatAPI } from "./chatAPI";
+export { default as messageAPI } from "./messageAPI";
+export { default as notifyAPI } from "./notifyAPI";

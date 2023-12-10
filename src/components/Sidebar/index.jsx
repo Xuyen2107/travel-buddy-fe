@@ -1,33 +1,38 @@
-import { AccountBox, Article, Diversity1, Group, Home, Settings, Storefront } from "@mui/icons-material";
-import { Box, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
+import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { DarkMode, Diversity1, Home, Logout, Settings } from "@mui/icons-material";
+import { Avatar, Box, Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
+import SwitchControl from "../Switch";
+import useAuth from "../../hooks/authHook";
 
 const Sidebar = () => {
+   const { handelLogout } = useAuth();
+   const { userLogin } = useSelector((state) => state.auth);
+
    const getIcon = (component) => {
       switch (component) {
          case "Home":
             return <Home />;
-         case "Article":
-            return <Article />;
-         case "Group":
-            return <Group />;
-         case "Storefront":
-            return <Storefront />;
          case "Diversity1":
             return <Diversity1 />;
          case "Settings":
             return <Settings />;
+         case "DarkMode":
+            return <DarkMode />;
+         case "Logout":
+            return <Logout />;
          case "AccountBox":
-            return <AccountBox />;
+            return <Avatar sx={{ width: "30px", height: "30px", border: "1px solid" }} src={userLogin.avatar} alt="avatar" />;
          default:
             break;
       }
    };
 
-   const SidebarItems = ({ text, component, href }) => {
+   const SidebarItems = ({ text, component, href, onclick }) => {
       return (
-         <ListItem disablePadding>
-            <ListItemButton component={Link} to={href}>
+         <ListItem disablePadding sx={{ whiteSpace: "nowrap" }}>
+            <ListItemButton component={Link} to={href} onClick={onclick}>
                <ListItemIcon>{getIcon(component)}</ListItemIcon>
                <ListItemText primary={text} />
             </ListItemButton>
@@ -36,21 +41,32 @@ const Sidebar = () => {
    };
 
    return (
-      <Box flex={1} sx={{ display: { xs: "none", md: "block" } }}>
-         <Box sx={{ width: "100%", maxWidth: 400, position: "sticky", top: 64 }}>
-            <nav aria-label="main mailbox folders">
-               <List>
-                  <SidebarItems text="Home" component="Home" href="/" />
-                  <SidebarItems text="Pages" component="Article" href="/page" />
-                  <SidebarItems text="Groups" component="Group" href="/group" />
-                  <SidebarItems text="Marketplace" component="Storefront" href="/marketplace" />
-                  <SidebarItems text="Friends" component="Diversity1" href="/friends" />
-                  <SidebarItems text="Settings" component="Settings" href="/setting" />
-                  <SidebarItems text="Profile" component="AccountBox" href="/profile" />
-               </List>
-            </nav>
-         </Box>
+      <Box sx={{ width: "100%", maxWidth: "max-content" }}>
+         <nav aria-label="main mailbox folders">
+            <List>
+               <SidebarItems text={userLogin.fullName} component="AccountBox" href={`profile/${userLogin._id}`} />
+               <SidebarItems text="Trang chủ" component="Home" href="/" />
+               <SidebarItems text="Bạn bè" component="Diversity1" />
+               <Box sx={{ display: { xs: "block", md: "none" } }}>
+                  <SidebarItems text="Cài đặt" component="Settings" />
+                  <SidebarItems text="Đăng xuất" component="Logout" onclick={handelLogout} />
+               </Box>
+               <Divider />
+               <ListItem>
+                  <ListItemText primary="Chế độ tối" />
+                  <SwitchControl />
+               </ListItem>
+            </List>
+         </nav>
       </Box>
    );
 };
+
+Sidebar.propTypes = {
+   text: PropTypes.string,
+   component: PropTypes.string,
+   href: PropTypes.string,
+   onclick: PropTypes.func,
+};
+
 export default Sidebar;
