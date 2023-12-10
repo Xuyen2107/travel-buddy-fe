@@ -4,8 +4,7 @@ import albumSlice from "./albumSlice";
 import themeSlice from "./themeSlice";
 import vacationSlice from "./vacationSlice";
 import postSlice from "./postSlice";
-import chatSlice, { setChats } from "./chatSlice";
-import userChats from "../data/userChat";
+import chatSlice from "./chatSlice";
 
 const store = configureStore({
    reducer: {
@@ -17,7 +16,5 @@ const store = configureStore({
       chat: chatSlice,
    },
 });
-
-store.dispatch(setChats(userChats));
 
 export default store;

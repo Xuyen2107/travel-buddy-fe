@@ -1,25 +1,22 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { setChats, setSelectedChat, selectChatState } from "../../../redux/chatSlice";
-import "./HomeChat.css";
-import Contacts from "../Contacts/Contacts.jsx";
-import Main from "../Main/Main.jsx";
+import ChatSideBar from "../../chatRealTime/chatSideBar";
+import { Box } from "@mui/material";
+import Navbar from "../../Navbar";
+import { useNavigate } from "react-router-dom";
 
-const HomeChat = () => {
-  const dispatch = useDispatch();
-  const { chats, selectedChat } = useSelector(selectChatState);
 
+const HomeChat = ({children}) => {
   
-  useEffect(() => {
-    
-  }, [dispatch]);
+  const navigate = useNavigate();
+ 
 
   return (
-    <div className="HomeChat">
-      
-      <Contacts />
-      <Main />
-    </div>
+    <Box>
+      <Navbar/>
+    <Box sx={{display: "flex", maxHeight: "calc(100vh - 64px)",height: "calc(100vh - 64px)", overflow: "hidden"}}>
+      <ChatSideBar onClick={(item) => navigate(`/message/${item.chatId}`)} /> 
+      {children}
+    </Box>
+    </Box>
   );
 };
 

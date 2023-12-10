@@ -1,15 +1,16 @@
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { BoxColumn } from "../styles/index";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Box, CircularProgress, Typography } from "@mui/material";
-import { userAPI } from "../apis";
+import { chatAPI, userAPI } from "../apis";
 import { useCrudApi, useFetchData } from "../hooks";
 import { Navbar, ProfileTop, ListFriend, InfoUser } from "../components";
 import PropTypes from "prop-types";
 
 const ProfilePage = ({ children }) => {
    const { userId } = useParams();
+   const navigate = useNavigate();
    const { userLogin } = useSelector((state) => state.auth);
    const { data: dataFriends, loading: loadingFriends, error: errFriends, fetchData: fetchDataFriends } = useFetchData(userAPI.getFriends, userId);
    const {
@@ -21,6 +22,12 @@ const ProfilePage = ({ children }) => {
    } = useCrudApi(userAPI.getSingle);
    //================================================================
 
+   const {data: dataCreate, loading: loadingCreate, fetchData: fetchDataCreate} = useCrudApi(chatAPI.createChat);
+   
+   const {data: dataChatSingle, loading: loadingChatSingle, fetchData: fetchDataChatSingle } = useCrudApi(chatAPI.findByChat);
+   
+   
+   
    useEffect(() => {
       if (userId === userLogin._id) {
          setDataProfile(userLogin);
@@ -28,10 +35,13 @@ const ProfilePage = ({ children }) => {
          fetchDataProfile(userId);
       }
       fetchDataFriends(userId);
+      fetchDataCreate(userId);
+      fetchDataChatSingle(userId);
    }, [userId, userLogin]);
 
    //================================================================
-
+   
+   
    if (loadingFriends || loadingProfile) {
       return (
          <>
@@ -61,7 +71,7 @@ const ProfilePage = ({ children }) => {
    return (
       <Box>
          <Navbar />
-         <ProfileTop userProfile={dataProfile} />
+         <ProfileTop userProfile={dataProfile} handleChat={() => navigate(`/message/${dataChatSingle?._id}`)} />
          <Box>
             <Box
                sx={{
