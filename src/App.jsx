@@ -6,7 +6,7 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import Navigate from "./routes/Route";
 import { darkTheme, lightTheme } from "./theme";
 import ScreenComment from "./components/ScreenComment";
-import SearchForm from "./components/SearchForm";
+import { cc } from "./firebase.js"import SearchForm from "./components/SearchForm";
 import Item from "./pages/item";
 
 const App = () => {
@@ -15,7 +15,9 @@ const App = () => {
    const darkMode = useSelector((state) => state.theme.darkMode);
    const theme = darkMode === "dark" ? darkTheme : lightTheme;
 
+
    useEffect(() => {
+      cc(); 
       fetchDataUseLogin();
    }, []);
 
