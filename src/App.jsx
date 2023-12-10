@@ -5,17 +5,16 @@ import { useEffect } from "react";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import Navigate from "./routes/Route";
 import { darkTheme, lightTheme } from "./theme";
-import ScreenComment from "./components/ScreenComment";
-import { cc } from "./firebase.js"
+import { cc } from "./firebase.js";
+
 const App = () => {
    const { loading } = useSelector((state) => state.auth);
    const { fetchDataUseLogin } = useAuth();
    const darkMode = useSelector((state) => state.theme.darkMode);
    const theme = darkMode === "dark" ? darkTheme : lightTheme;
 
-
    useEffect(() => {
-      cc(); 
+      cc();
       fetchDataUseLogin();
    }, []);
 
@@ -27,7 +26,6 @@ const App = () => {
             <ThemeProvider theme={theme}>
                <CssBaseline />
                <Navigate />
-               {/* <ScreenComment /> */}
             </ThemeProvider>
          )}
       </>

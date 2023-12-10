@@ -26,21 +26,24 @@ const InfoUser = ({ userProfile }) => {
    ];
 
    return (
-      <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper", borderRadius: "10px", boxShadow: 4 }}>
+      <List sx={{ width: "100%", bgcolor: "background.paper", borderRadius: "10px", boxShadow: 4 }}>
          <ListItem>
             <Typography variant="h6" fontWeight="bold">
                Thông tin cá nhân
             </Typography>
          </ListItem>
          <Divider />
-         {data.map((item, index) => (
-            <ListItem key={index} disablePadding>
-               <ListItem>
-                  <ListItemIcon sx={{ minWidth: "40px" }}>{item.icon}</ListItemIcon>
-                  <ListItemText primary={item.text} />
-               </ListItem>
-            </ListItem>
-         ))}
+         {data.map(
+            (item, index) =>
+               item.text && (
+                  <ListItem key={index} disablePadding>
+                     <ListItem>
+                        <ListItemIcon sx={{ minWidth: "40px" }}>{item.icon}</ListItemIcon>
+                        <ListItemText primary={item.text} />
+                     </ListItem>
+                  </ListItem>
+               ),
+         )}
       </List>
    );
 };

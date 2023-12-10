@@ -28,7 +28,7 @@ const Login = () => {
             const response = await authAPI.login(values);
             const accessToken = response.data;
             localStorage.setItem("accessToken", JSON.stringify(accessToken));
-            const profileResponse = await authAPI.authInfo(accessToken);
+            const profileResponse = await authAPI.authInfo();
             dispatch(login(profileResponse.data));
             navigate("/");
             setLoading(false);

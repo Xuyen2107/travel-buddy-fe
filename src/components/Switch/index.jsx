@@ -61,7 +61,6 @@ const SwitchControl = () => {
          <FormControlLabel
             control={
                <MaterialUISwitch
-                  sx={{ m: 1 }}
                   defaultChecked={darkMode === "dark" ? true : false}
                   onChange={() => {
                      dispatch(toggleTheme());

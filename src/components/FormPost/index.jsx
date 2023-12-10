@@ -67,6 +67,7 @@ const CreatePost = ({ post, vacation, milestoneId, type, onProcessDone }) => {
    });
 
    const { values, errors, touched, setFieldValue, handleChange, handleSubmit } = formik;
+   console.log(values);
    //================================================================
    useEffect(() => {
       if (allVacationHaveUser) {
@@ -211,14 +212,14 @@ const CreatePost = ({ post, vacation, milestoneId, type, onProcessDone }) => {
                {values.images.length > 0 &&
                   values.images.map((item, idx) => (
                      <Box key={idx} sx={{ width: "100px", height: "100px" }}>
-                        <CardMedia sx={{ width: "100%", height: "100%", objectFit: "cover" }} src={item} alt="image" />
+                        <CardMedia sx={{ width: "100%", height: "100%", objectFit: "cover" }} image={item} alt="image" />
                      </Box>
                   ))}
             </Box>
          </Box>
          {type === "createPost" &&
             (createPostLoading === false ? (
-               <Button onClick={() => setActionType("create")} variant="contained" type="submit" size="medium" sx={{ textTransform: "none" }}>
+               <Button onClick={() => setActionType("createPost")} variant="contained" type="submit" size="medium" sx={{ textTransform: "none" }}>
                   Tạo bài viết
                </Button>
             ) : (
@@ -227,7 +228,7 @@ const CreatePost = ({ post, vacation, milestoneId, type, onProcessDone }) => {
 
          {type === "updatePost" &&
             (updatePostLoading === false ? (
-               <Button onClick={() => setActionType("update")} variant="contained" type="submit" size="medium" sx={{ textTransform: "none" }}>
+               <Button onClick={() => setActionType("updatePost")} variant="contained" type="submit" size="medium" sx={{ textTransform: "none" }}>
                   Cập nhật
                </Button>
             ) : (

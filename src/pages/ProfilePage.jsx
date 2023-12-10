@@ -3,9 +3,9 @@ import { useSelector } from "react-redux";
 import { BoxColumn } from "../styles/index";
 import { useNavigate, useParams } from "react-router-dom";
 import { Box, CircularProgress, Typography } from "@mui/material";
-import { chatAPI, userAPI } from "../apis";
+import { chatAPI, userAPI, vacationAPI } from "../apis";
 import { useCrudApi, useFetchData } from "../hooks";
-import { Navbar, ProfileTop, ListFriend, InfoUser } from "../components";
+import { Navbar, ProfileTop, ListFriend, InfoUser, ScreenVacation } from "../components";
 import PropTypes from "prop-types";
 
 const ProfilePage = ({ children }) => {
@@ -20,6 +20,8 @@ const ProfilePage = ({ children }) => {
       setData: setDataProfile,
       fetchData: fetchDataProfile,
    } = useCrudApi(userAPI.getSingle);
+
+   const { data, loading, fetchData } = useCrudApi(vacationAPI.getAllByUser);
    //================================================================
 
    const {data: dataCreate, loading: loadingCreate, fetchData: fetchDataCreate} = useCrudApi(chatAPI.createChat);
@@ -34,9 +36,13 @@ const ProfilePage = ({ children }) => {
       } else {
          fetchDataProfile(userId);
       }
-      fetchDataFriends(userId);
+
+      if (userId) {
+         fetchDataFriends(userId);
       fetchDataCreate(userId);
       fetchDataChatSingle(userId);
+         fetchData(userId);
+      }
    }, [userId, userLogin]);
 
    //================================================================
@@ -71,23 +77,34 @@ const ProfilePage = ({ children }) => {
    return (
       <Box>
          <Navbar />
-         <ProfileTop userProfile={dataProfile} handleChat={() => navigate(`/message/${dataChatSingle?._id}`)} />
+         <ProfileTop userProfile={dataProfile} handleChat={() => navigate(`/message/${dataChatSingle?._id}`)} userId={userId} />
          <Box>
             <Box
                sx={{
-                  width: "60rem",
+                  flexDirection: { xs: "column", md: "row" },
+                  width: { xs: "100%", md: "60rem" },
                   display: "flex",
-                  justifyContent: "space-between",
                   gap: "30px",
                   margin: " 20px auto 0 auto",
                }}
             >
-               <BoxColumn gap={4}>
-                  <InfoUser userProfile={dataProfile} />
-                  <ListFriend friends={dataFriends} />
+               <BoxColumn gap={4} sx={{ alignItems: "center" }}>
+                  <Box sx={{ width: { xs: "90%", md: "300px" } }}>
+                     <InfoUser userProfile={dataProfile} />
+                  </Box>
+                  <Box sx={{ width: { xs: "90%", md: "300px" } }}>
+                     <ListFriend friends={dataFriends} />
+                  </Box>
+               </BoxColumn>
+               <BoxColumn gap="20px" alignItems="center">
+                  {data &&
+                     data.map((item) => (
+                        <Box key={item?._id} sx={{ width: { xs: "90%", md: "100%" } }}>
+                           <ScreenVacation key={item._id} vacation={item} />
+                        </Box>
+                     ))}
                </BoxColumn>
             </Box>
-            <Box fontSize="500px">{children}</Box>
          </Box>
       </Box>
    );

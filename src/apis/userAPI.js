@@ -20,6 +20,7 @@ const userAPI = {
    sendFriend: (userId) => axiosInstance.post(`/user/send-friend/${userId}`),
    acceptFriend: (userId) => axiosInstance.put(`/user/accept-friend/${userId}`),
    removeFriend: (userId) => axiosInstance.put(`/user/remove-friend/${userId}`),
+   searchUser: (value) => axiosInstance.get(`/user/search-user?keywordUser=${value}`),
 };
 
 export default userAPI;

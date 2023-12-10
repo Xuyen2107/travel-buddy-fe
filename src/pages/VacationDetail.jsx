@@ -1,4 +1,4 @@
-import { Avatar, Box, CardActions, CardHeader, CardMedia, IconButton, Menu, MenuItem, Typography } from "@mui/material";
+import { Avatar, Box, Button, CardActions, CardHeader, CardMedia, CircularProgress, IconButton, Menu, MenuItem, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
@@ -9,19 +9,24 @@ import PreviewIcon from "@mui/icons-material/Preview";
 import { BoxColumn, BoxFlexBetween, ButtonRadius, TypographyWrap } from "../styles";
 import { ChatBubbleOutlineOutlined, FavoriteBorderOutlined, FavoriteOutlined } from "@mui/icons-material";
 import { useSelector } from "react-redux";
-import { CommentForm, CreateVacationForm, OpenModal } from "../components";
+import { CommentForm, CreateVacationForm, OpenModal, TimeAgo } from "../components";
 import CreatePost from "../components/FormPost";
 import Post from "../components/ScreenPost";
 import Navbar from "../components/Navbar";
 import { useCrudApi, useFetchData } from "../hooks";
-import { postAPI, vacationAPI } from "../apis";
+import { commentAPI, postAPI, vacationAPI } from "../apis";
+import ScreenComment from "../components/ScreenComment";
 
 const VacationDetail = () => {
    const [type, setType] = useState("");
+   const [page, setPage] = useState(1);
    const [anchorEl, setAnchorEl] = useState(null);
    const [milestone, setMilestone] = useState("");
    const [openModal, setOpenModal] = useState(false);
    const [confirmOpenModal, setConfirmOpenModal] = useState(false);
+   const [allComments, setAllComments] = useState([]);
+   const [number, setNumber] = useState(0);
+
    //================================================================
    const navigate = useNavigate();
    const open = Boolean(anchorEl);
@@ -30,6 +35,7 @@ const VacationDetail = () => {
    const { data: dataVacation, setData: setDataVacation } = useFetchData(vacationAPI.getSingle, vacationId);
    const { data: dataPostMilestone, fetchData: fetchDataPostMilestone } = useCrudApi(postAPI.getAllByMilestone);
    const { data: dataVacationLike, fetchData: handleLike } = useCrudApi(vacationAPI.like);
+   const { data: dataComment, loading: loadingComment, fetchData: fetchDataComment } = useCrudApi(commentAPI.getCommentsByPost);
 
    //=================================================================
    const handleClose = () => setAnchorEl(null);
@@ -41,9 +47,35 @@ const VacationDetail = () => {
       setConfirmOpenModal(false);
       setOpenModal(false);
    };
+   const handleCountPage = () => setPage((page) => page + 1);
+
    //=====================================================================
    const isLiked = dataVacation?.likes?.includes(userLogin?._id);
    const isUserLogin = userLogin?._id === dataVacation?.author?._id;
+
+   useEffect(() => {
+      fetchDataComment(vacationId, page, 10);
+   }, []);
+
+   useEffect(() => {
+      if (dataComment) {
+         const data = dataComment.docs;
+         setAllComments((comment) => [...comment, ...data]);
+      }
+   }, [dataComment]);
+
+   useEffect(() => {
+      if (allComments.length > 0) {
+         const dataNumber = dataComment.totalDocs;
+         setNumber(dataNumber - allComments.length);
+      }
+   }, [allComments]);
+
+   useEffect(() => {
+      if (page > 1) {
+         fetchDataComment(vacationId, page, 10);
+      }
+   }, [page]);
 
    useEffect(() => {
       if (dataVacationLike) {
@@ -123,7 +155,7 @@ const VacationDetail = () => {
                            {dataVacation?.author?.fullName}
                         </Typography>
                      }
-                     subheader="September 14, 2016"
+                     subheader={<TimeAgo date={dataVacation?.createdAt} />}
                   />
                   <Box sx={{ display: "flex", width: "100%", gap: "10px", alignItems: "flex-start" }}>
                      <CardMedia
@@ -228,7 +260,26 @@ const VacationDetail = () => {
                         <ShareIcon />
                      </IconButton>
                   </CardActions>
-                  <CommentForm typeSubmit="createComment" postId={vacationId} />
+                  <CommentForm
+                     typeSubmit="createComment"
+                     postId={vacationId}
+                     onProcessDone={async () => {
+                        setAllComments([]);
+                        await fetchDataComment(vacationId, 1, 10);
+                     }}
+                  />
+                  {loadingComment ? (
+                     <CircularProgress size="20px" />
+                  ) : (
+                     <>
+                        {allComments.length > 0 && allComments.map((item) => <ScreenComment key={item.key} comment={item} />)}
+                        {number > 0 && (
+                           <Button onClick={handleCountPage} variant="text" disableRipple sx={{ p: 0 }}>
+                              Xem thêm {number} bình luận
+                           </Button>
+                        )}
+                     </>
+                  )}
                </BoxColumn>
             </Box>
             {milestone && (
